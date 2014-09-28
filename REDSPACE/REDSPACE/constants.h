@@ -29,6 +29,7 @@
 // graphic images
 const char BACKGROUND_IMAGE[] = "pictures\\background.jpg";  // photo source NASA/courtesy of nasaimages.org 
 const char PLANET_IMAGE[] = "pictures\\sun1.png"; // picture of planet
+const char MISSILE_IMAGE[] = "pictures\\missile.png";
 const char SONY_IMAGE[] = "pictures\\Jack.png";
 const char OTHER_IMAGE[] = "pictures\\aku.jpg";
 

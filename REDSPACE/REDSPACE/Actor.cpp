@@ -9,7 +9,23 @@
 // constructor
 //=============================================================================
 Actor::Actor() : Image()
-{}
+{
+    radius = 1.0;
+    edge.left = -1;
+    edge.top = -1;
+    edge.right = 1;
+    edge.bottom = 1;
+    mass = 1.0;
+    velocity.x = 0.0;
+    velocity.y = 0.0;
+    deltaV.x = 0.0;
+    deltaV.y = 0.0;
+    active = true;                  // the entity is active
+    rotatedBoxReady = false;
+    collisionType = CIRCLE;
+    health = 100;
+    gravity = 6.67428e-11f;
+}
 
 //=============================================================================
 // Initialize the Actor.
@@ -45,7 +61,7 @@ void Actor::update(float frameTime)
     velocity += deltaV;
     deltaV.x = 0;
     deltaV.y = 0;
-    Image::update(frameTime);
+    //Image::update(frameTime);
     rotatedBoxReady = false;    // for rotatedBox collision detection
 }
 

@@ -54,6 +54,9 @@
     <ClCompile Include="Actor.cpp">
       <Filter>Source Files\GameFiles</Filter>
     </ClCompile>
+    <ClCompile Include="Missile.cpp">
+      <Filter>Source Files\GameFiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h">
@@ -85,6 +88,9 @@
     </ClInclude>
     <ClInclude Include="image.h">
       <Filter>Header Files\Background</Filter>
+    </ClInclude>
+    <ClInclude Include="Missile.h">
+      <Filter>Header Files\GameFiles</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

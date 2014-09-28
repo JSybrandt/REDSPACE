@@ -12,7 +12,7 @@
 //=============================================================================
 RedSpace::RedSpace()
 {
-	planet = Planet(GAME_WIDTH/2 - 128/2.0, GAME_HEIGHT/2 - 128/2.0, 120/2.0,-1,-1,1,1,1.0e14f,0.0,0.0,0.0,0.0,true);
+	planet = Planet(GAME_WIDTH/2 - 128/2.0, GAME_HEIGHT/2 - 128/2.0, 120/2.0,1.0e14f,0.0,0.0,0.0,0.0,true);
 }
 
 //=============================================================================
@@ -42,8 +42,8 @@ void RedSpace::initialize(HWND hwnd)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing planet texture"));
 
 	// spaceship texture
-	//if (!shipTexture.initialize(graphics,SHIP1_IMAGE))
-	//	throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing ship texture"));
+	if (!misTexture.initialize(graphics,MISSILE_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing ship texture"));
 
 	// nebula image
 	if (!background.initialize(graphics,0,0,0,&backgroundTex))
@@ -56,6 +56,14 @@ void RedSpace::initialize(HWND hwnd)
 	planet.setX(GAME_WIDTH*0.5f  - planet.getWidth()*0.5f);
     planet.setY(GAME_HEIGHT*0.5f - planet.getHeight()*0.5f);
 
+	if (!missile.initialize(this, missileNS::WIDTH, missileNS::HEIGHT, missileNS::TEXTURE_COLS, &misTexture))
+        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing ship"));
+   // missile.setFrames(missileNS::SHIP_START_FRAME, missileNS::SHIP_END_FRAME);
+    //missile.setCurrentFrame(missileNS::SHIP_START_FRAME);
+    missile.setX(GAME_WIDTH/4 - missileNS::WIDTH);
+    missile.setY(GAME_HEIGHT/2 - missileNS::HEIGHT);
+    missile.setVelocity(VECTOR2(0,-missileNS::SPEED)); // VECTOR2(X, Y)
+
 
 	return;
 }
@@ -64,7 +72,12 @@ void RedSpace::initialize(HWND hwnd)
 // Update all game items
 //=============================================================================
 void RedSpace::update()
-{}
+{
+	missile.gravityForce(&planet, frameTime);
+    planet.update(frameTime);
+    missile.update(frameTime);
+
+}
 
 //=============================================================================
 // Artificial Intelligence
@@ -87,6 +100,7 @@ void RedSpace::render()
 
     background.draw();                          // add the orion nebula to the scene
     planet.draw();                          // add the planet to the scene
+	missile.draw();
     //ship.draw();                            // add the spaceship to the scene
 
     graphics->spriteEnd();                  // end drawing sprites

@@ -54,7 +54,7 @@ Planet::Planet() {
 	//    gravity = 100;
 }
 
-Planet::Planet(float x, float y, float rad, long left, long top, long right, long bottom, long mass, 
+Planet::Planet(float x, float y, float rad, float mass, 
 			   float xVel, float yVel, float xDel, float yDel, bool active = true){
 				   spriteData.x    = x;              // location on screen
 				   spriteData.y    = y;
@@ -76,6 +76,6 @@ Planet::Planet(float x, float y, float rad, long left, long top, long right, lon
 				   rotatedBoxReady = false;
 				   collisionType = CIRCLE;
 				   health = 100;
-				   gravity = 100;
+				   gravity = 6.67428e-11f;
 
 }

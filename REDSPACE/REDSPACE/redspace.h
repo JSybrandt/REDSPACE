@@ -9,6 +9,7 @@
 
 #include "game.h"
 #include "Planet.h"
+#include "Missile.h"
 
 
 //=============================================================================
@@ -20,10 +21,10 @@ private:
     // variables
 	TextureManager backgroundTex;   // nebula texture
     TextureManager planetTexture;   // planet texture
-    TextureManager shipTexture;     // ship texture
+    TextureManager misTexture;     // ship texture
 	Planet  planet;         // the planet
+	Missile missile;
 	Image   background;         // backdrop image
-	//Image* list[6];
 
 
 public:
