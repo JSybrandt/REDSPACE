@@ -27,8 +27,8 @@
 //                  Constants
 //-----------------------------------------------
 // graphic images
-const char NEBULA_IMAGE[] = "pictures\\orion.jpg";  // photo source NASA/courtesy of nasaimages.org 
-const char PLANET_IMAGE[] = "pictures\\planet.png"; // picture of planet
+const char BACKGROUND_IMAGE[] = "pictures\\background.jpg";  // photo source NASA/courtesy of nasaimages.org 
+const char PLANET_IMAGE[] = "pictures\\sun1.png"; // picture of planet
 const char SONY_IMAGE[] = "pictures\\Jack.png";
 const char OTHER_IMAGE[] = "pictures\\aku.jpg";
 
@@ -45,6 +45,7 @@ const float FRAME_RATE  = 200.0f;               // the target frame rate (frames
 const float MIN_FRAME_RATE = 10.0f;             // the minimum frame rate
 const float MIN_FRAME_TIME = 1.0f/FRAME_RATE;   // minimum desired time for 1 frame
 const float MAX_FRAME_TIME = 1.0f/MIN_FRAME_RATE; // maximum time used in calculations
+const enum COLLISION_TYPE {NONE, CIRCLE, BOX, ROTATED_BOX};
 
 // key mappings
 // In this game simple constants are used for key mappings. If variables were used

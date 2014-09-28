@@ -1,7 +1,7 @@
 // Programming 2D Games
 // Copyright (c) 2011 by:
 // Charles Kelly
-// Chapter 5 graphics.h v1.0
+// Chapter 6 graphics.h v1.0
 
 #ifndef _GRAPHICS_H             // Prevent multiple definitions if this 
 #define _GRAPHICS_H             // file is included in more than one place
@@ -20,6 +20,7 @@
 #define LP_SPRITE   LPD3DXSPRITE
 #define LP_3DDEVICE LPDIRECT3DDEVICE9
 #define LP_3D       LPDIRECT3D9
+#define VECTOR2     D3DXVECTOR2
 
 // Color defines
 #define COLOR_ARGB DWORD
@@ -148,6 +149,18 @@ public:
     // Pre: All user created D3DPOOL_DEFAULT surfaces are freed.
     // Post: All user surfaces are recreated.
     void    changeDisplayMode(graphicsNS::DISPLAY_MODE mode = graphicsNS::TOGGLE);
+
+    // Return length of vector v.
+    static float    Vector2Length(const VECTOR2 *v) {return D3DXVec2Length(v);}
+
+    // Return Dot product of vectors v1 and v2.
+    static float    Vector2Dot(const VECTOR2 *v1, const VECTOR2 *v2) {return D3DXVec2Dot(v1, v2);}
+
+    // Normalize vector v.
+    static void     Vector2Normalize(VECTOR2 *v) {D3DXVec2Normalize(v, v);}
+
+    // Transform vector v with matrix m.
+    static VECTOR2* Vector2Transform(VECTOR2 *v, D3DXMATRIX *m) {return D3DXVec2TransformCoord(v,v,m);}
 
     // get functions
     // Return direct3d.

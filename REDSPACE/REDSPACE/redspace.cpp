@@ -12,6 +12,7 @@
 //=============================================================================
 RedSpace::RedSpace()
 {
+	planet = Planet(GAME_WIDTH/2 - 128/2.0, GAME_HEIGHT/2 - 128/2.0, 120/2.0,-1,-1,1,1,1.0e14f,0.0,0.0,0.0,0.0,true);
 }
 
 //=============================================================================
@@ -19,7 +20,7 @@ RedSpace::RedSpace()
 //=============================================================================
 RedSpace::~RedSpace()
 {
-    releaseAll();           // call onLostDevice() for every graphics item
+	releaseAll();           // call onLostDevice() for every graphics item
 }
 
 //=============================================================================
@@ -28,9 +29,35 @@ RedSpace::~RedSpace()
 //=============================================================================
 void RedSpace::initialize(HWND hwnd)
 {
-    Game::initialize(hwnd); // throws GameError
+	Game::initialize(hwnd); // throws GameError
 
-    return;
+	//list[0] = new Image;
+	//list[1] = new Planet(GAME_WIDTH/2 - 128/2, GAME_HEIGHT/2 - 128/2, 120/2,-1,-1,1,1,0,0,0,0,true);
+
+	if (!backgroundTex.initialize(graphics,BACKGROUND_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing nebula texture"));
+
+	// planet texture
+	if (!planetTexture.initialize(graphics,PLANET_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing planet texture"));
+
+	// spaceship texture
+	//if (!shipTexture.initialize(graphics,SHIP1_IMAGE))
+	//	throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing ship texture"));
+
+	// nebula image
+	if (!background.initialize(graphics,0,0,0,&backgroundTex))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing nebula"));
+
+	// planet
+	if (!planet.initialize(this,0,0,0,&planetTexture))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing planet"));
+
+	planet.setX(GAME_WIDTH*0.5f  - planet.getWidth()*0.5f);
+    planet.setY(GAME_HEIGHT*0.5f - planet.getHeight()*0.5f);
+
+
+	return;
 }
 
 //=============================================================================
@@ -55,7 +82,16 @@ void RedSpace::collisions()
 // Render game items
 //=============================================================================
 void RedSpace::render()
-{}
+{
+	 graphics->spriteBegin();                // begin drawing sprites
+
+    background.draw();                          // add the orion nebula to the scene
+    planet.draw();                          // add the planet to the scene
+    //ship.draw();                            // add the spaceship to the scene
+
+    graphics->spriteEnd();                  // end drawing sprites
+
+}
 
 //=============================================================================
 // The graphics device was lost.
@@ -63,8 +99,8 @@ void RedSpace::render()
 //=============================================================================
 void RedSpace::releaseAll()
 {
-    Game::releaseAll();
-    return;
+	Game::releaseAll();
+	return;
 }
 
 //=============================================================================
@@ -73,6 +109,6 @@ void RedSpace::releaseAll()
 //=============================================================================
 void RedSpace::resetAll()
 {
-    Game::resetAll();
-    return;
+	Game::resetAll();
+	return;
 }

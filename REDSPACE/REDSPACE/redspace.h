@@ -3,11 +3,12 @@
 // Charles Kelly
 // Chapter 4 spacewar.h v1.0
 
-#ifndef _SPACEWAR_H             // prevent multiple definitions if this 
-#define _SPACEWAR_H             // ..file is included in more than one place
+#ifndef _REDSPACE_H             // prevent multiple definitions if this 
+#define _REDSPACE_H             // ..file is included in more than one place
 #define WIN32_LEAN_AND_MEAN
 
 #include "game.h"
+#include "Planet.h"
 
 
 //=============================================================================
@@ -17,6 +18,13 @@ class RedSpace : public Game
 {
 private:
     // variables
+	TextureManager backgroundTex;   // nebula texture
+    TextureManager planetTexture;   // planet texture
+    TextureManager shipTexture;     // ship texture
+	Planet  planet;         // the planet
+	Image   background;         // backdrop image
+	//Image* list[6];
+
 
 public:
     // Constructor

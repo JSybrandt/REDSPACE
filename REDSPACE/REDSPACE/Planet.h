@@ -1,13 +1,10 @@
-#include "redspace.h"
 #include "Actor.h"
 
-class Planet public Actor
+class Planet: public Actor
 {
 public:
 	Planet();
-
-private:
-	float mass;
-
+	Planet(float x, float y, float rad, long left, long top, long right, long bottom, long mass, 
+			   float xVel, float yVel, float xDel, float yDel, bool active);
 
 };
