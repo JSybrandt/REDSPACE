@@ -1,10 +1,10 @@
 // Programming 2D Games
 // Copyright (c) 2011 by: 
 // Charles Kelly
-// Chapter 4 game.h v1.0
+// Chapter 5 game.h v1.0
 
-#ifndef _GAME_H                 // prevent multiple definitions if this 
-#define _GAME_H                 // ..file is included in more than one place
+#ifndef _GAME_H                 // Prevent multiple definitions if this 
+#define _GAME_H                 // file is included in more than one place
 #define WIN32_LEAN_AND_MEAN
 
 #include <windows.h>
@@ -13,6 +13,8 @@
 #include "input.h"
 #include "constants.h"
 #include "gameError.h"
+#include "image.h"
+#include "textureManager.h"
 
 class Game
 {
@@ -30,7 +32,6 @@ protected:
     DWORD   sleepTime;          // number of milli-seconds to sleep between frames
     bool    paused;             // true if game is paused
     bool    initialized;
-	
 
 public:
     // Constructor
@@ -65,6 +66,9 @@ public:
 
     // Handle lost graphics device
     virtual void handleLostGraphicsDevice();
+
+    // Set display mode (fullscreen, window or toggle)
+    void setDisplayMode(graphicsNS::DISPLAY_MODE mode = graphicsNS::TOGGLE);
 
     // Return pointer to Graphics.
     Graphics* getGraphics() {return graphics;}
