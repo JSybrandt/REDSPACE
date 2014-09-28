@@ -22,6 +22,7 @@ public:
 	Missile();
 	Missile(float x, float y, float rad, float mass, 
 			   float xVel, float yVel, float xDel, float yDel, bool active);
+	Missile(float x, float y);
 
 	void update(float frameTime);
 };

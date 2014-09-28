@@ -21,6 +21,27 @@ Missile::Missile() {
 	gravity = 6.67428e-11f;
 }
 
+Missile::Missile(float x, float y) {
+    spriteData.width = missileNS::WIDTH;           // size of Ship1
+    spriteData.height = missileNS::HEIGHT;
+    spriteData.x = x;                   // location on screen
+    spriteData.y = y;
+    spriteData.rect.bottom = missileNS::HEIGHT;    // rectangle to select parts of an image
+    spriteData.rect.right = missileNS::WIDTH;
+    velocity.x = 0;                             // velocity X
+    velocity.y = 0;                             // velocity Y
+	deltaV.x = 0.0;
+    deltaV.y = 0.0;
+    frameDelay = missileNS::SHIP_ANIMATION_DELAY;
+    startFrame = missileNS::SHIP_START_FRAME;      // first frame of ship animation
+    endFrame     = missileNS::SHIP_END_FRAME;      // last frame of ship animation
+    currentFrame = startFrame;
+    radius = missileNS::WIDTH/2.0;
+    mass = missileNS::MASS;
+    collisionType = CIRCLE;
+	gravity = 6.67428e-11f;
+}
+
 Missile::Missile(float x, float y, float rad, float mass, 
 			   float xVel, float yVel, float xDel, float yDel, bool active = true){
 				   spriteData.x    = x;              // location on screen

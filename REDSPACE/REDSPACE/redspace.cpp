@@ -12,6 +12,7 @@
 //=============================================================================
 RedSpace::RedSpace()
 {
+	spaceBorn = 0;
 	planet = Planet(GAME_WIDTH/2 - 128/2.0, GAME_HEIGHT/2 - 128/2.0, 120/2.0,1.0e14f,0.0,0.0,0.0,0.0,true);
 }
 
@@ -53,16 +54,24 @@ void RedSpace::initialize(HWND hwnd)
 	if (!planet.initialize(this,0,0,0,&planetTexture))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing planet"));
 
+
+
+
 	planet.setX(GAME_WIDTH*0.5f  - planet.getWidth()*0.5f);
-    planet.setY(GAME_HEIGHT*0.5f - planet.getHeight()*0.5f);
+	planet.setY(GAME_HEIGHT*0.5f - planet.getHeight()*0.5f);
 
 	if (!missile.initialize(this, missileNS::WIDTH, missileNS::HEIGHT, missileNS::TEXTURE_COLS, &misTexture))
-        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing ship"));
-   // missile.setFrames(missileNS::SHIP_START_FRAME, missileNS::SHIP_END_FRAME);
-    //missile.setCurrentFrame(missileNS::SHIP_START_FRAME);
-    missile.setX(GAME_WIDTH/4 - missileNS::WIDTH);
-    missile.setY(GAME_HEIGHT/2 - missileNS::HEIGHT);
-    missile.setVelocity(VECTOR2(0,-missileNS::SPEED)); // VECTOR2(X, Y)
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing ship"));
+
+	//for(int i = 0; i < MISSILEMAX; i++) {
+	//	if (!mc[i]->initialize(this, missileNS::WIDTH, missileNS::HEIGHT, missileNS::TEXTURE_COLS, &misTexture))
+	//		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing ship"));
+	//}
+	// missile.setFrames(missileNS::SHIP_START_FRAME, missileNS::SHIP_END_FRAME);
+	//missile.setCurrentFrame(missileNS::SHIP_START_FRAME);
+	missile.setX(GAME_WIDTH/4 - missileNS::WIDTH);
+	missile.setY(GAME_HEIGHT/2 - missileNS::HEIGHT);
+	missile.setVelocity(VECTOR2(0,-missileNS::SPEED)); // VECTOR2(X, Y)
 
 
 	return;
@@ -74,8 +83,22 @@ void RedSpace::initialize(HWND hwnd)
 void RedSpace::update()
 {
 	missile.gravityForce(&planet, frameTime);
-    planet.update(frameTime);
-    missile.update(frameTime);
+
+	if(input->wasKeyPressed(VK_SPACE) && spaceBorn < 10) {
+		mc[spaceBorn] = new Missile(GAME_WIDTH/4 - missileNS::WIDTH, GAME_HEIGHT/2 - missileNS::HEIGHT);
+		mc[spaceBorn]->initialize(this, missileNS::WIDTH, missileNS::HEIGHT, missileNS::TEXTURE_COLS, &misTexture);
+		spaceBorn++;
+	}
+
+	for(int i = 0; i < spaceBorn; i++) {
+		mc[i]->gravityForce(&planet, frameTime);
+	}
+	for(int i = 0; i < spaceBorn; i++) {
+		mc[i]->update(frameTime);
+	}
+
+	planet.update(frameTime);
+	missile.update(frameTime);
 
 }
 
@@ -96,14 +119,17 @@ void RedSpace::collisions()
 //=============================================================================
 void RedSpace::render()
 {
-	 graphics->spriteBegin();                // begin drawing sprites
+	graphics->spriteBegin();                // begin drawing sprites
 
-    background.draw();                          // add the orion nebula to the scene
-    planet.draw();                          // add the planet to the scene
+	background.draw();                          // add the orion nebula to the scene
+	planet.draw();                          // add the planet to the scene
 	missile.draw();
-    //ship.draw();                            // add the spaceship to the scene
+	for(int i = 0; i < spaceBorn; i++) {
+		mc[i]->draw();
+	}
+	//ship.draw();                            // add the spaceship to the scene
 
-    graphics->spriteEnd();                  // end drawing sprites
+	graphics->spriteEnd();                  // end drawing sprites
 
 }
 

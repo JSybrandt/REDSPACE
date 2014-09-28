@@ -41,6 +41,7 @@ const UINT GAME_WIDTH =  640;               // width of game in pixels
 const UINT GAME_HEIGHT = 480;               // height of game in pixels
  
 // game
+const int MISSILEMAX = 10;
 const double PI = 3.14159265;
 const float FRAME_RATE  = 200.0f;               // the target frame rate (frames/sec)
 const float MIN_FRAME_RATE = 10.0f;             // the minimum frame rate

@@ -25,6 +25,8 @@ private:
 	Planet  planet;         // the planet
 	Missile missile;
 	Image   background;         // backdrop image
+	Missile *mc[MISSILEMAX];
+	int spaceBorn;
 
 
 public:
