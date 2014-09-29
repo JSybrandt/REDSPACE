@@ -390,7 +390,11 @@ bool Actor::outsideRect(RECT rect)
 // Override this function in the inheriting class.
 //=============================================================================
 void Actor::damage(int weapon)
-{}
+{
+	active = false;
+	velocity.x = 0;
+	velocity.y = 0;
+}
 
 //=============================================================================
 // Actor bounces after collision with another Actor

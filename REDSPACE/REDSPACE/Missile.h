@@ -3,8 +3,8 @@
 
 namespace missileNS
 {
-    const int WIDTH = 32;                   // image width
-    const int HEIGHT = 32;                  // image height
+    const int WIDTH = 60;                   // image width
+    const int HEIGHT = 45;                  // image height
     const int X = GAME_WIDTH/2 - WIDTH/2;   // location on screen
     const int Y = GAME_HEIGHT/2 - HEIGHT/2;
     const float ROTATION_RATE = (float)PI/4; // radians per second
@@ -20,6 +20,7 @@ class Missile: public Actor
 {
 public:
 	Missile();
+	~Missile() {}
 	Missile(float x, float y, float rad, float mass, 
 			   float xVel, float yVel, float xDel, float yDel, bool active);
 	Missile(float x, float y);

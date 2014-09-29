@@ -84,18 +84,20 @@ void RedSpace::update()
 {
 	missile.gravityForce(&planet, frameTime);
 
-	if(input->wasKeyPressed(VK_SPACE) && spaceBorn < 10) {
+	if(input->wasKeyPressed(VK_SPACE) && spaceBorn < MISSILEMAX) {
 		mc[spaceBorn] = new Missile(GAME_WIDTH/4 - missileNS::WIDTH, GAME_HEIGHT/2 - missileNS::HEIGHT);
 		mc[spaceBorn]->initialize(this, missileNS::WIDTH, missileNS::HEIGHT, missileNS::TEXTURE_COLS, &misTexture);
 		spaceBorn++;
 	}
 
 	for(int i = 0; i < spaceBorn; i++) {
-		mc[i]->gravityForce(&planet, frameTime);
+		if(mc[i] != nullptr && mc[i]->getActive()) {
+			mc[i]->gravityForce(&planet, frameTime);
+			mc[i]->update(frameTime);
+		}
+		//mc[i]->setVelocity(collison);
 	}
-	for(int i = 0; i < spaceBorn; i++) {
-		mc[i]->update(frameTime);
-	}
+
 
 	planet.update(frameTime);
 	missile.update(frameTime);
@@ -112,7 +114,16 @@ void RedSpace::ai()
 // Handle collisions
 //=============================================================================
 void RedSpace::collisions()
-{}
+{
+	VECTOR2 collison;
+	for(int i = 0; i < spaceBorn; i++) {
+		if(mc[i] != nullptr && mc[i]->collidesWith(planet,collison)) {
+			delete mc[i];
+			mc[i] = nullptr;
+			//mc[i]->damage(PLANET);
+		}
+	}
+}
 
 //=============================================================================
 // Render game items
@@ -125,7 +136,8 @@ void RedSpace::render()
 	planet.draw();                          // add the planet to the scene
 	missile.draw();
 	for(int i = 0; i < spaceBorn; i++) {
-		mc[i]->draw();
+		if(mc[i]!= nullptr)
+			mc[i]->draw();
 	}
 	//ship.draw();                            // add the spaceship to the scene
 

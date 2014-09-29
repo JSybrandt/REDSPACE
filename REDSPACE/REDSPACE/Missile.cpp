@@ -29,7 +29,7 @@ Missile::Missile(float x, float y) {
     spriteData.rect.bottom = missileNS::HEIGHT;    // rectangle to select parts of an image
     spriteData.rect.right = missileNS::WIDTH;
     velocity.x = 0;                             // velocity X
-    velocity.y = 0;                             // velocity Y
+    velocity.y = 10;                             // velocity Y
 	deltaV.x = 0.0;
     deltaV.y = 0.0;
     frameDelay = missileNS::SHIP_ANIMATION_DELAY;
