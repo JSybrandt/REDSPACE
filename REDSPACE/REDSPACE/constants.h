@@ -30,18 +30,16 @@
 const char BACKGROUND_IMAGE[] = "pictures\\background.jpg";  // photo source NASA/courtesy of nasaimages.org 
 const char PLANET_IMAGE[] = "pictures\\sun1.png"; // picture of planet
 const char MISSILE_IMAGE[] = "pictures\\missile.png";
-const char SONY_IMAGE[] = "pictures\\Jack.png";
-const char OTHER_IMAGE[] = "pictures\\aku.jpg";
 
 // window
 const char CLASS_NAME[] = "Spacewar";
 const char GAME_TITLE[] = "Spacewar";
 const bool FULLSCREEN = false;              // windowed or fullscreen
-const UINT GAME_WIDTH =  640;               // width of game in pixels
-const UINT GAME_HEIGHT = 480;               // height of game in pixels
+const UINT GAME_WIDTH =  1280;               // width of game in pixels
+const UINT GAME_HEIGHT = 800;               // height of game in pixels
  
 // game
-const int MISSILEMAX = 1000;
+const int MISSILEMAX = 10000;
 const double PI = 3.14159265;
 const float FRAME_RATE  = 200.0f;               // the target frame rate (frames/sec)
 const float MIN_FRAME_RATE = 10.0f;             // the minimum frame rate

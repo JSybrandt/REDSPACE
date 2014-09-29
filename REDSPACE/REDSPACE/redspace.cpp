@@ -13,7 +13,7 @@
 RedSpace::RedSpace()
 {
 	spaceBorn = 0;
-	planet = Planet(GAME_WIDTH/2 - 128/2.0, GAME_HEIGHT/2 - 128/2.0, 120/2.0,1.0e14f,0.0,0.0,0.0,0.0,true);
+	planet = Planet(GAME_WIDTH/2 - 128/2.0, GAME_HEIGHT/2 - 120/2.0, 80/2.0,1.0e14f,0.0,0.0,0.0,0.0,true);
 }
 
 //=============================================================================
@@ -47,8 +47,8 @@ void RedSpace::initialize(HWND hwnd)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing ship texture"));
 
 	// nebula image
-	if (!background.initialize(graphics,0,0,0,&backgroundTex))
-		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing nebula"));
+	//if (!background.initialize(graphics,0,0,0,&backgroundTex))
+		//throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing nebula"));
 
 	// planet
 	if (!planet.initialize(this,0,0,0,&planetTexture))
@@ -59,6 +59,7 @@ void RedSpace::initialize(HWND hwnd)
 
 	planet.setX(GAME_WIDTH*0.5f  - planet.getWidth()*0.5f);
 	planet.setY(GAME_HEIGHT*0.5f - planet.getHeight()*0.5f);
+	planet.setMass(5e14f);
 
 	if (!missile.initialize(this, missileNS::WIDTH, missileNS::HEIGHT, missileNS::TEXTURE_COLS, &misTexture))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing ship"));
@@ -69,9 +70,9 @@ void RedSpace::initialize(HWND hwnd)
 	//}
 	// missile.setFrames(missileNS::SHIP_START_FRAME, missileNS::SHIP_END_FRAME);
 	//missile.setCurrentFrame(missileNS::SHIP_START_FRAME);
-	missile.setX(GAME_WIDTH/4 - missileNS::WIDTH);
-	missile.setY(GAME_HEIGHT/2 - missileNS::HEIGHT);
-	missile.setVelocity(VECTOR2(0,-missileNS::SPEED)); // VECTOR2(X, Y)
+	//missile.setX(GAME_WIDTH/4 - missileNS::WIDTH);
+	//missile.setY(GAME_HEIGHT/2 - missileNS::HEIGHT);
+	//missile.setVelocity(VECTOR2(0,-missileNS::SPEED)); // VECTOR2(X, Y)
 
 
 	return;
@@ -87,6 +88,7 @@ void RedSpace::update()
 	if(input->wasKeyPressed(VK_SPACE) && spaceBorn < MISSILEMAX) {
 		mc[spaceBorn] = new Missile(GAME_WIDTH/4 - missileNS::WIDTH, GAME_HEIGHT/2 - missileNS::HEIGHT);
 		mc[spaceBorn]->initialize(this, missileNS::WIDTH, missileNS::HEIGHT, missileNS::TEXTURE_COLS, &misTexture);
+		mc[spaceBorn]->setVelocity(D3DXVECTOR2(0,-80-(rand()%100)));
 		spaceBorn++;
 	}
 
@@ -132,7 +134,7 @@ void RedSpace::render()
 {
 	graphics->spriteBegin();                // begin drawing sprites
 
-	background.draw();                          // add the orion nebula to the scene
+	//background.draw();                          // add the orion nebula to the scene
 	planet.draw();                          // add the planet to the scene
 	missile.draw();
 	for(int i = 0; i < spaceBorn; i++) {
