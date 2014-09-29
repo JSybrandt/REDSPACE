@@ -23,7 +23,7 @@ public:
 	~Missile() {}
 	Missile(float x, float y, float rad, float mass, 
 			   float xVel, float yVel, float xDel, float yDel, bool active);
-	Missile(float x, float y);
+	Missile(float x, float y, bool active);
 
 	void update(float frameTime);
 };

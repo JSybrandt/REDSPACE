@@ -34,12 +34,12 @@ const char MISSILE_IMAGE[] = "pictures\\missile.png";
 // window
 const char CLASS_NAME[] = "Spacewar";
 const char GAME_TITLE[] = "Spacewar";
-const bool FULLSCREEN = false;              // windowed or fullscreen
+const bool FULLSCREEN = false;              // windowed or fullscreen DO NOT RUN FULLSCREEN IN DEBUG MODE
 const UINT GAME_WIDTH =  1280;               // width of game in pixels
 const UINT GAME_HEIGHT = 800;               // height of game in pixels
  
 // game
-const int MISSILEMAX = 10000;
+const int MISSILEMAX = 100;
 const double PI = 3.14159265;
 const float FRAME_RATE  = 200.0f;               // the target frame rate (frames/sec)
 const float MIN_FRAME_RATE = 10.0f;             // the minimum frame rate

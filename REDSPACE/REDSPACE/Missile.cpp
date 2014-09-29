@@ -21,7 +21,7 @@ Missile::Missile() {
 	gravity = 6.67428e-11f;
 }
 
-Missile::Missile(float x, float y) {
+Missile::Missile(float x, float y, bool active) {
     spriteData.width = missileNS::WIDTH;           // size of Ship1
     spriteData.height = missileNS::HEIGHT;
     spriteData.x = x;                   // location on screen
@@ -40,6 +40,7 @@ Missile::Missile(float x, float y) {
     mass = missileNS::MASS;
     collisionType = CIRCLE;
 	gravity = 6.67428e-11f;
+	this->active = active;
 }
 
 Missile::Missile(float x, float y, float rad, float mass, 

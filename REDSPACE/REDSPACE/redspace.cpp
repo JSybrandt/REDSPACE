@@ -55,8 +55,6 @@ void RedSpace::initialize(HWND hwnd)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing planet"));
 
 
-
-
 	planet.setX(GAME_WIDTH*0.5f  - planet.getWidth()*0.5f);
 	planet.setY(GAME_HEIGHT*0.5f - planet.getHeight()*0.5f);
 	planet.setMass(5e14f);
@@ -64,17 +62,14 @@ void RedSpace::initialize(HWND hwnd)
 	if (!missile.initialize(this, missileNS::WIDTH, missileNS::HEIGHT, missileNS::TEXTURE_COLS, &misTexture))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing ship"));
 
-	//for(int i = 0; i < MISSILEMAX; i++) {
-	//	if (!mc[i]->initialize(this, missileNS::WIDTH, missileNS::HEIGHT, missileNS::TEXTURE_COLS, &misTexture))
-	//		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing ship"));
-	//}
-	// missile.setFrames(missileNS::SHIP_START_FRAME, missileNS::SHIP_END_FRAME);
-	//missile.setCurrentFrame(missileNS::SHIP_START_FRAME);
-	//missile.setX(GAME_WIDTH/4 - missileNS::WIDTH);
-	//missile.setY(GAME_HEIGHT/2 - missileNS::HEIGHT);
-	//missile.setVelocity(VECTOR2(0,-missileNS::SPEED)); // VECTOR2(X, Y)
 
 
+	for(int i = 0; i < MISSILEMAX; i++) { //NEEDS TO MAKE ACTIVE ONLY
+		mc[i] = Missile(GAME_WIDTH/4 - missileNS::WIDTH, GAME_HEIGHT/2 - missileNS::HEIGHT, false);
+		mc[i].initialize(this, missileNS::WIDTH, missileNS::HEIGHT, missileNS::TEXTURE_COLS, &misTexture);
+		mc[i].setVelocity(D3DXVECTOR2(0,-80-(rand()%100)));
+		//spaceBorn++;
+	}
 	return;
 }
 
@@ -85,17 +80,26 @@ void RedSpace::update()
 {
 	missile.gravityForce(&planet, frameTime);
 
-	if(input->wasKeyPressed(VK_SPACE) && spaceBorn < MISSILEMAX) {
-		mc[spaceBorn] = new Missile(GAME_WIDTH/4 - missileNS::WIDTH, GAME_HEIGHT/2 - missileNS::HEIGHT);
-		mc[spaceBorn]->initialize(this, missileNS::WIDTH, missileNS::HEIGHT, missileNS::TEXTURE_COLS, &misTexture);
-		mc[spaceBorn]->setVelocity(D3DXVECTOR2(0,-80-(rand()%100)));
-		spaceBorn++;
+	if(input->wasKeyPressed(VK_SPACE) && spaceBorn < MISSILEMAX) { //NEEDS TO MAKE ACTIVE ONLY
+		//while(mc[spaceBorn].getActive())
+		for(int i = 0; i < MISSILEMAX; i++)
+		{
+			if(!mc[i].getActive()){
+				mc[i].setX(GAME_WIDTH/4 - missileNS::WIDTH);
+				mc[i].setY(GAME_HEIGHT/2 - missileNS::HEIGHT);
+				mc[i].setVelocity(D3DXVECTOR2(0,-80-(rand()%100)));
+				mc[i].activate();
+				spaceBorn++;
+				break;
+			}
+		}
+
 	}
 
-	for(int i = 0; i < spaceBorn; i++) {
-		if(mc[i] != nullptr && mc[i]->getActive()) {
-			mc[i]->gravityForce(&planet, frameTime);
-			mc[i]->update(frameTime);
+	for(int i = 0; i < MISSILEMAX; i++) {
+		if(mc[i].getActive()) {
+			mc[i].gravityForce(&planet, frameTime);
+			mc[i].update(frameTime);
 		}
 		//mc[i]->setVelocity(collison);
 	}
@@ -118,10 +122,10 @@ void RedSpace::ai()
 void RedSpace::collisions()
 {
 	VECTOR2 collison;
-	for(int i = 0; i < spaceBorn; i++) {
-		if(mc[i] != nullptr && mc[i]->collidesWith(planet,collison)) {
-			delete mc[i];
-			mc[i] = nullptr;
+	for(int i = 0; i < MISSILEMAX; i++) {
+		if(mc[i].getActive() && mc[i].collidesWith(planet,collison)) {
+			mc[i].setActive(false);
+			spaceBorn--;
 			//mc[i]->damage(PLANET);
 		}
 	}
@@ -137,9 +141,9 @@ void RedSpace::render()
 	//background.draw();                          // add the orion nebula to the scene
 	planet.draw();                          // add the planet to the scene
 	missile.draw();
-	for(int i = 0; i < spaceBorn; i++) {
-		if(mc[i]!= nullptr)
-			mc[i]->draw();
+	for(int i = 0; i < MISSILEMAX; i++) {
+		if(mc[i].getActive())
+			mc[i].draw();
 	}
 	//ship.draw();                            // add the spaceship to the scene
 
