@@ -21,8 +21,10 @@ private:
     // variables
 	TextureManager backgroundTex;   // nebula texture
     TextureManager planetTexture;   // planet texture
-    TextureManager misTexture;     // ship texture
+	TextureManager marsTex;
+    TextureManager misTexture;     // missile texture
 	Planet  planet;         // the planet
+	Planet	mars;
 	Missile missile;
 	Image   background;         // backdrop image
 	Missile mc[MISSILEMAX];

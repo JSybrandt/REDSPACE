@@ -30,6 +30,7 @@
 const char BACKGROUND_IMAGE[] = "pictures\\background.jpg";  // photo source NASA/courtesy of nasaimages.org 
 const char PLANET_IMAGE[] = "pictures\\sun1.png"; // picture of planet
 const char MISSILE_IMAGE[] = "pictures\\missile.png";
+const char MARS_IMAGE[] = "pictures\\mars.png";
 
 // window
 const char CLASS_NAME[] = "Spacewar";

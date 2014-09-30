@@ -54,10 +54,11 @@ Planet::Planet() {
 	//    gravity = 100;
 }
 
-Planet::Planet(float x, float y, float rad, float mass, 
-			   float xVel, float yVel, float xDel, float yDel, bool active = true){
+Planet::Planet(float x, float y, float rad, float mass, bool active = true){
 				   spriteData.x    = x;              // location on screen
 				   spriteData.y    = y;
+				   //center.x = x;
+				   //center.y = y;
 				   radius          = rad;
 				   //startFrame      = planetNS::START_FRAME;    // first frame of ship animation
 				   //endFrame        = planetNS::END_FRAME;      // last frame of ship animation
@@ -78,4 +79,10 @@ Planet::Planet(float x, float y, float rad, float mass,
 				   health = 100;
 				   gravity = 6.67428e-11f;
 
+}
+
+void Planet::update(float frameTime) {
+	Actor::update(frameTime);
+    spriteData.x += frameTime * this->velocity.x;     // move ship along X 
+    spriteData.y += frameTime * this->velocity.y;     // move ship along Y
 }

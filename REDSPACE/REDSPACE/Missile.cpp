@@ -67,8 +67,11 @@ Missile::Missile(float x, float y, float rad, float mass,
 
 void Missile::update(float frameTime)
 {
+
     Actor::update(frameTime);
+	//Graphics::Vector2Normalize(&gravityV);
     spriteData.angle += frameTime * missileNS::ROTATION_RATE;  // rotate the ship
+	//spriteData.angle = Graphics::Vector2Normalize(&velocity);
     spriteData.x += frameTime * this->velocity.x;     // move ship along X 
     spriteData.y += frameTime * this->velocity.y;     // move ship along Y
 

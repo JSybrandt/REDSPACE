@@ -13,7 +13,8 @@
 RedSpace::RedSpace()
 {
 	spaceBorn = 0;
-	planet = Planet(GAME_WIDTH/2 - 128/2.0, GAME_HEIGHT/2 - 120/2.0, 80/2.0,1.0e14f,0.0,0.0,0.0,0.0,true);
+	planet = Planet(GAME_WIDTH/2 - 128/2.0, GAME_HEIGHT/2 - 120/2.0, 80/2.0,5.0e14f,true);
+	mars = Planet(GAME_WIDTH/2 - 128/2.0, GAME_HEIGHT/2 - 120/2.0, 80/2.0,5.0e14f,true);
 }
 
 //=============================================================================
@@ -32,32 +33,35 @@ void RedSpace::initialize(HWND hwnd)
 {
 	Game::initialize(hwnd); // throws GameError
 
-	//list[0] = new Image;
-	//list[1] = new Planet(GAME_WIDTH/2 - 128/2, GAME_HEIGHT/2 - 128/2, 120/2,-1,-1,1,1,0,0,0,0,true);
-
 	if (!backgroundTex.initialize(graphics,BACKGROUND_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing nebula texture"));
 
 	// planet texture
 	if (!planetTexture.initialize(graphics,PLANET_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing planet texture"));
+	if (!marsTex.initialize(graphics,MARS_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing planet texture"));
 
 	// spaceship texture
 	if (!misTexture.initialize(graphics,MISSILE_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing ship texture"));
 
-	// nebula image
-	//if (!background.initialize(graphics,0,0,0,&backgroundTex))
-		//throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing nebula"));
-
 	// planet
 	if (!planet.initialize(this,0,0,0,&planetTexture))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing planet"));
-
+	if (!mars.initialize(this,0,0,0,&marsTex))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing planet"));
 
 	planet.setX(GAME_WIDTH*0.5f  - planet.getWidth()*0.5f);
 	planet.setY(GAME_HEIGHT*0.5f - planet.getHeight()*0.5f);
 	planet.setMass(5e14f);
+
+	mars.setX(GAME_WIDTH*0.125f  - planet.getWidth()*0.125f);
+	mars.setY(GAME_HEIGHT*0.5f - planet.getHeight()*0.5f);
+
+	mars.setMass(9e11f);
+	mars.setVelocity(VECTOR2(0,40)); //@ 1/4 distance, y = 130.
+	mars.setGravity(2.17428e-21f);
 
 	if (!missile.initialize(this, missileNS::WIDTH, missileNS::HEIGHT, missileNS::TEXTURE_COLS, &misTexture))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing ship"));
@@ -78,7 +82,9 @@ void RedSpace::initialize(HWND hwnd)
 //=============================================================================
 void RedSpace::update()
 {
+	mars.gravityForce(&planet, frameTime);
 	missile.gravityForce(&planet, frameTime);
+	
 
 	if(input->wasKeyPressed(VK_SPACE) && spaceBorn < MISSILEMAX) { //NEEDS TO MAKE ACTIVE ONLY
 		//while(mc[spaceBorn].getActive())
@@ -95,10 +101,14 @@ void RedSpace::update()
 		}
 
 	}
+	if(input->wasKeyPressed(VK_UP)) { //NEEDS TO MAKE ACTIVE ONLY
+		spaceBorn;
+	}
 
 	for(int i = 0; i < MISSILEMAX; i++) {
 		if(mc[i].getActive()) {
 			mc[i].gravityForce(&planet, frameTime);
+			mc[i].gravityForce(&mars, frameTime);
 			mc[i].update(frameTime);
 		}
 		//mc[i]->setVelocity(collison);
@@ -106,6 +116,7 @@ void RedSpace::update()
 
 
 	planet.update(frameTime);
+	mars.update(frameTime);
 	missile.update(frameTime);
 
 }
@@ -123,7 +134,7 @@ void RedSpace::collisions()
 {
 	VECTOR2 collison;
 	for(int i = 0; i < MISSILEMAX; i++) {
-		if(mc[i].getActive() && mc[i].collidesWith(planet,collison)) {
+		if(mc[i].getActive() && (mc[i].collidesWith(planet,collison) || mc[i].collidesWith(mars,collison))) {
 			mc[i].setActive(false);
 			spaceBorn--;
 			//mc[i]->damage(PLANET);
@@ -139,7 +150,8 @@ void RedSpace::render()
 	graphics->spriteBegin();                // begin drawing sprites
 
 	//background.draw();                          // add the orion nebula to the scene
-	planet.draw();                          // add the planet to the scene
+	planet.draw();
+	mars.draw();// add the planet to the scene
 	missile.draw();
 	for(int i = 0; i < MISSILEMAX; i++) {
 		if(mc[i].getActive())
