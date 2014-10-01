@@ -10,6 +10,7 @@
 #include "game.h"
 #include "Planet.h"
 #include "Missile.h"
+#include "Explosion.h"
 
 
 //=============================================================================
@@ -23,12 +24,16 @@ private:
     TextureManager planetTexture;   // planet texture
 	TextureManager marsTex;
     TextureManager misTexture;     // missile texture
+	TextureManager explosionTex;
 	Planet  planet;         // the planet
 	Planet	mars;
+	Planet mars2;
 	Missile missile;
 	Image   background;         // backdrop image
 	Missile mc[MISSILEMAX];
+	Explosion exp[EXPMAX];
 	int spaceBorn;
+	int misStorage;
 
 
 public:

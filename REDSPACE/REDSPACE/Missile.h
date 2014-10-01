@@ -18,6 +18,8 @@ namespace missileNS
 
 class Missile: public Actor
 {
+
+
 public:
 	Missile();
 	~Missile() {}
@@ -26,4 +28,15 @@ public:
 	Missile(float x, float y, bool active);
 
 	void update(float frameTime);
+	void explode();
+	void draw();
+	void  setActive(bool a) {
+		active = a;
+		if(!a)
+			explosionOn = true;
+	}
+
+	Image explosion;
+	bool explosionOn;
 };
+

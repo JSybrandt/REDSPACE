@@ -10,6 +10,7 @@
 //=============================================================================
 Actor::Actor() : Image()
 {
+	resistance = 1;
     radius = 1.0;
     edge.left = -1;
     edge.top = -1;
@@ -434,9 +435,15 @@ void Actor::gravityForce(Actor *ent, float frameTime)
     if (!active || !ent->getActive())
         return ;
 
+	
+
     rr = pow((ent->getCenterX() - getCenterX()),2) + 
             pow((ent->getCenterY() - getCenterY()),2);
-    force = gravity * ent->getMass() * mass/rr;
+    force = gravity * ent->getMass() * mass/rr * resistance;
+
+	//this->setResistance(.01*force);
+
+	//force = resistance;
 
     // --- Using vector math to create gravity vector ---
     // Create vector between entities
@@ -448,4 +455,8 @@ void Actor::gravityForce(Actor *ent, float frameTime)
     gravityV *= force * frameTime;
     // Add gravity vector to moving velocity vector to change direction
     velocity += gravityV;
+}
+
+void Actor::explosion() {
+
 }

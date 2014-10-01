@@ -29,8 +29,9 @@
 // graphic images
 const char BACKGROUND_IMAGE[] = "pictures\\background.jpg";  // photo source NASA/courtesy of nasaimages.org 
 const char PLANET_IMAGE[] = "pictures\\sun1.png"; // picture of planet
-const char MISSILE_IMAGE[] = "pictures\\missile.png";
-const char MARS_IMAGE[] = "pictures\\mars.png";
+const char MISSILE_IMAGE[] = "pictures\\missile.png"; //More CC3 and something else
+const char MARS_IMAGE[] = "pictures\\mars.png";	//CC3 art
+const char EXP_IMAGE[] = "pictures\\explosion.png"; //Public Domain
 
 // window
 const char CLASS_NAME[] = "Spacewar";
@@ -38,11 +39,24 @@ const char GAME_TITLE[] = "Spacewar";
 const bool FULLSCREEN = false;              // windowed or fullscreen DO NOT RUN FULLSCREEN IN DEBUG MODE
 const UINT GAME_WIDTH =  1280;               // width of game in pixels
 const UINT GAME_HEIGHT = 800;               // height of game in pixels
+
+//Explosion Cells
+const int  EXP_COLS = 2;
+const int  EXP_WIDTH = 32;
+const int  EXP_HEIGHT = 32;
+//JPO actions
+const int EXP_START = 0;			//1st row
+const int EXP_END = 3;
+
+
+const float EXP_SPEED = 90.5f;
+const float EXP_DELAY = 0.05f;
  
 // game
-const int MISSILEMAX = 100;
+const int MISSILEMAX = 10000;
+const int EXPMAX = 200;
 const double PI = 3.14159265;
-const float FRAME_RATE  = 200.0f;               // the target frame rate (frames/sec)
+const float FRAME_RATE  = 100.0f;               // the target frame rate (frames/sec)
 const float MIN_FRAME_RATE = 10.0f;             // the minimum frame rate
 const float MIN_FRAME_TIME = 1.0f/FRAME_RATE;   // minimum desired time for 1 frame
 const float MAX_FRAME_TIME = 1.0f/MIN_FRAME_RATE; // maximum time used in calculations

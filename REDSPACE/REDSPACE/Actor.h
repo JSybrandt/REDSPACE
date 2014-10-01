@@ -36,6 +36,7 @@ class Actor : public Image
     VECTOR2 velocity;       // velocity
     VECTOR2 deltaV;         // added to velocity during next call to update()
     float   mass;           // Mass of Actor
+	float	resistance;		// Resistance to movement to help will planets
     float   health;         // health 0 to 100
     float   rr;             // Radius squared variable
     float   force;          // Force of gravity
@@ -92,8 +93,7 @@ class Actor : public Image
     virtual const RECT& getEdge() const {return edge;}
 
     // Return corner c of ROTATED_BOX
-    virtual const VECTOR2* getCorner(UINT c) const
-    {
+    virtual const VECTOR2* getCorner(UINT c) const {
         if(c>=4) 
             c=0;
         return &corners[c]; 
@@ -116,6 +116,8 @@ class Actor : public Image
 
     // Return collision type (NONE, CIRCLE, BOX, ROTATED_BOX)
     virtual COLLISION_TYPE getCollisionType() {return collisionType;}
+
+	virtual float getResistance()		const {return resistance;}
 
     ////////////////////////////////////////
     //           Set functions            //
@@ -141,6 +143,10 @@ class Actor : public Image
 
     // Set radius of collision circle.
     virtual void setCollisionRadius(float r)    {radius = r;}
+
+	virtual void setResistance(float r)		{resistance = r;}
+
+	//virtual void draw() {};
 
     ////////////////////////////////////////
     //         Other functions            //
@@ -178,7 +184,10 @@ class Actor : public Image
     void bounce(VECTOR2 &collisionVector, Actor &ent);
 
     // Adds the gravitational force to the velocity vector of this Actor
-    void gravityForce(Actor *other, float frameTime);
+    void virtual gravityForce(Actor *other, float frameTime);
+	
+	
+	void virtual explosion();
 };
 
 #endif
