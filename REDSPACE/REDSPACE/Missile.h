@@ -1,4 +1,5 @@
 #include "Actor.h"
+#include "Explosion.h"
 #include "constants.h"
 
 namespace missileNS
@@ -18,8 +19,6 @@ namespace missileNS
 
 class Missile: public Actor
 {
-
-
 public:
 	Missile();
 	~Missile() {}
@@ -32,11 +31,14 @@ public:
 	void draw();
 	void  setActive(bool a) {
 		active = a;
-		if(!a)
+		if(!a) {
+			audio->playCue(BOOM);
 			explosionOn = true;
+			explosion.activate();
+		}
 	}
 
-	Image explosion;
+	Explosion explosion;
 	bool explosionOn;
 };
 

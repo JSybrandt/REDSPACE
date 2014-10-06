@@ -16,6 +16,7 @@ Game::Game()
     // additional initialization is handled in later call to input->initialize()
     paused = false;             // game is not paused
     graphics = NULL;
+	audio = NULL;
     initialized = false;
 }
 
@@ -106,6 +107,19 @@ void Game::initialize(HWND hw)
 
     // initialize input, do not capture mouse
     input->initialize(hwnd, false);             // throws GameError
+
+	// init sound system
+    audio = new Audio();
+    if (*WAVE_BANK != '\0' && *SOUND_BANK != '\0')  // if sound files defined
+    {
+        if( FAILED( hr = audio->initialize() ) )
+        {
+            if( hr == HRESULT_FROM_WIN32( ERROR_FILE_NOT_FOUND ) )
+                throw(GameError(gameErrorNS::FATAL_ERROR, "Failed to initialize sound system because media file not found."));
+            else
+                throw(GameError(gameErrorNS::FATAL_ERROR, "Failed to initialize sound system."));
+        }
+    }
 
     // attempt to set up high resolution timer
     if(QueryPerformanceFrequency(&timerFreq) == false)
@@ -210,6 +224,7 @@ void Game::run(HWND hwnd)
     }
     renderGame();                   // draw all game items
     input->readControllers();       // read state of controllers
+	audio->run();					// Runs the audio
 
 
     // Clear input

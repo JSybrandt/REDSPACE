@@ -60,6 +60,9 @@
     <ClCompile Include="Explosion.cpp">
       <Filter>Source Files\GameFiles</Filter>
     </ClCompile>
+    <ClCompile Include="audio.cpp">
+      <Filter>Source Files\Background</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h">
@@ -97,6 +100,9 @@
     </ClInclude>
     <ClInclude Include="Explosion.h">
       <Filter>Header Files\GameFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="audio.h">
+      <Filter>Header Files\Background</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

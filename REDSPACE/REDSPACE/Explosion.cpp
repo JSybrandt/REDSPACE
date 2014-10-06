@@ -18,7 +18,7 @@ Explosion::Explosion(float x, float y, bool active = false){
 	edge.top = -1;
 	edge.right = 1;
 	edge.bottom = 1;
-	this->mass = mass;
+	this->mass = -1200;
 	velocity.x = 0.0;
 	velocity.y = 0.0;
 	deltaV.x = 0.0;
@@ -27,7 +27,7 @@ Explosion::Explosion(float x, float y, bool active = false){
 	rotatedBoxReady = false;
 	collisionType = CIRCLE;
 	health = 100;
-	gravity = 6.67428e-11f;
+	gravity = 6.67428e-1f;
 
 }
 
@@ -48,6 +48,7 @@ void Explosion::update(float frameTime) {
                 {
                     currentFrame = endFrame;
                     animComplete = true;    // animation complete
+					
                 }
             }
             setRect();                      // set spriteData.rect

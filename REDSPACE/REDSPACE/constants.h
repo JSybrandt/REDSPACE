@@ -33,6 +33,15 @@ const char MISSILE_IMAGE[] = "pictures\\missile.png"; //More CC3 and something e
 const char MARS_IMAGE[] = "pictures\\mars.png";	//CC3 art
 const char EXP_IMAGE[] = "pictures\\explosion.png"; //Public Domain
 
+//Sound Locations
+const char WAVE_BANK[] = "audio\\Win\\wavesExample1.xwb";
+const char SOUND_BANK[] = "audio\\win\\SoundsExample1.xsb";
+const char XGS_FILE[]   = "audio\\Win\\SpaceWar.xgs";
+
+//Cue Names
+const char BOOM[] = "bang"; //MUST be exactly the same as cue name
+const char AZ[] = "Aldnoah";
+
 // window
 const char CLASS_NAME[] = "Spacewar";
 const char GAME_TITLE[] = "Spacewar";

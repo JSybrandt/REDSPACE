@@ -41,6 +41,7 @@ bool Actor::initialize(Game *gamePtr, int width, int height, int ncols,
                             TextureManager *textureM)
 {
     input = gamePtr->getInput();                // the input system
+    audio = gamePtr->getAudio();                // the audio system
     return(Image::initialize(gamePtr->getGraphics(), width, height, ncols, textureM));
 }
 

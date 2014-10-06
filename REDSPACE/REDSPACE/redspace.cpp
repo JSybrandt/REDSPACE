@@ -94,13 +94,16 @@ void RedSpace::initialize(HWND hwnd)
 		mc[i].setMass(1200);
 		mc[i].setVelocity(D3DXVECTOR2(0,-360-(rand()%100)));
 
-		mc[i].explosion.initialize(graphics, 32, 32, 2, &explosionTex);
+		mc[i].explosion.initialize(this, 32, 32, 2, &explosionTex);
 		mc[i].explosion.setFrames(EXP_START, EXP_END);
 		mc[i].explosion.setCurrentFrame(EXP_START);
 		mc[i].explosion.setFrameDelay(EXP_DELAY);
 		mc[i].explosion.setLoop(false);               // do not loop animation
+		mc[i].explosion.setMass(-mc[i].getMass()*400000000);
 		//spaceBorn++;
 	}
+
+	audio->playCue(AZ);
 
 	return;
 }
@@ -145,9 +148,12 @@ void RedSpace::update()
 			mc[i].gravityForce(&planet, frameTime);
 			mc[i].gravityForce(&mars, frameTime);
 			mc[i].gravityForce(&mars2, frameTime);
+			mc[i].gravityForce(&mc[i].explosion, frameTime);
 			mc[i].update(frameTime);
 		//}
 		if(mc[i].explosionOn) {
+			mars.gravityForce(&mc[i].explosion, frameTime); //TESTING ONLY
+			mars2.gravityForce(&mc[i].explosion, frameTime); //TESTING ONLY
 			mc[i].explosion.update(frameTime);
 			if(mc[i].explosion.getAnimationComplete()) {   // if explosion animation complete
 				mc[i].explosionOn = false;                // turn off explosion
@@ -181,17 +187,9 @@ void RedSpace::collisions()
 	for(int i = 0; i < MISSILEMAX; i++) {
 		if(mc[i].getActive() && (mc[i].collidesWith(planet,collison) || mc[i].collidesWith(mars,collison) || mc[i].collidesWith(mars2,collison) )) {
 			mc[i].setActive(false);
-
-			//exp[i].setX(mc[i].getX());
-			//exp[i].setY(mc[i].getY());
-			//exp[i].setActive(true);
-			//exp[i].setFrames(EXP_START, EXP_END);   // animation frames
-			//exp[i].setCurrentFrame(EXP_START);     // starting frame
-
 			spaceBorn--;
 			//mc[i]->damage(PLANET);
 		}
-
 	}
 }
 

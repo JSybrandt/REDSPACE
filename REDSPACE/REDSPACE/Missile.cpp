@@ -22,7 +22,8 @@ Missile::Missile() {
 	gravity = 6.67428e-11f;
 }
 
-Missile::Missile(float x, float y, bool active) {
+Missile::Missile(float x, float y, bool active = false) {
+	explosionOn = false;
     spriteData.width = missileNS::WIDTH;           // size of Ship1
     spriteData.height = missileNS::HEIGHT;
     spriteData.x = x;                   // location on screen
@@ -45,14 +46,11 @@ Missile::Missile(float x, float y, bool active) {
 }
 
 Missile::Missile(float x, float y, float rad, float mass, 
-			   float xVel, float yVel, float xDel, float yDel, bool active = true){
+			   float xVel, float yVel, float xDel, float yDel, bool active = false){
+				   explosionOn = false;
 				   spriteData.x    = x;              // location on screen
 				   spriteData.y    = y;
 				   radius          = rad;
-				   //startFrame      = planetNS::START_FRAME;    // first frame of ship animation
-				   //endFrame        = planetNS::END_FRAME;      // last frame of ship animation
-				   //setCurrentFrame(startFrame);
-
 				   this->mass = mass;
 				   velocity.x = 0.0;
 				   velocity.y = 0.0;
@@ -85,6 +83,7 @@ void Missile::update(float frameTime)
         {
             explosionOn = false;                // turn off explosion
             visible = false;
+			explosion.setActive(false);
             explosion.setAnimationComplete(false);
             explosion.setCurrentFrame(EXP_START);
         }
@@ -92,8 +91,9 @@ void Missile::update(float frameTime)
 }
 
 void Missile::draw() {
-    if(explosionOn)
+    if(explosionOn) {
         explosion.draw(spriteData); // draw explosion using current spriteData
+	}
     if(active)
         Actor::draw();              // draw ship
 }
