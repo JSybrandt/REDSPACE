@@ -66,6 +66,9 @@
     <ClCompile Include="PlayerPlanet.cpp">
       <Filter>Source Files\GameFiles</Filter>
     </ClCompile>
+    <ClCompile Include="SmokeParticle.cpp">
+      <Filter>Source Files\GameFiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h">
@@ -113,8 +116,8 @@
     <ClInclude Include="Controls.h">
       <Filter>Header Files\GameFiles</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
+    <ClInclude Include="SmokeParticle.h">
+      <Filter>Header Files\GameFiles</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

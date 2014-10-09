@@ -17,10 +17,12 @@ RedSpace::RedSpace()
 	P1Controls = Controls('W','S','A','D');
 	P2Controls = Controls('I','K','J','L');
 	numActiveMissles = 0;
+	numActiveParticles = 0;
 	sun = Planet(GAME_WIDTH/2 - 128/2.0, GAME_HEIGHT/2 - 120/2.0, 70/2.0,5.0e14f,true);
 	earth = PlayerPlanet(GAME_WIDTH/2 - 128/2.0, GAME_HEIGHT/2 - 120/2.0, 10/2.0,5.0e14f,this,P1Controls);
 	mars = PlayerPlanet(GAME_WIDTH/2 - 128/2.0, GAME_HEIGHT/2 - 120/2.0, 10/2.0,5.0e14f,this,P2Controls);
 	misStorage = 0;
+	partStorage = 0;
 }
 
 //=============================================================================
@@ -60,6 +62,8 @@ void RedSpace::initialize(HWND hwnd)
 
 	if(!cursorTex.initialize(graphics,CURSOR_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing cursor texture"));
+	if(!smokeTex.initialize(graphics,SMOKE_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing smoke texture"));
 
 	// sun
 	if (!sun.initialize(this,0,0,0,&planetTexture))
@@ -101,7 +105,7 @@ void RedSpace::initialize(HWND hwnd)
 
 
 	for(int i = 0; i < MISSILEMAX; i++) { //NEEDS TO MAKE ACTIVE ONLY
-		mc[i] = Missile(GAME_WIDTH/4 - missileNS::WIDTH, GAME_HEIGHT/2 - missileNS::HEIGHT, false);
+		mc[i] = Missile(GAME_WIDTH/4 - missileNS::WIDTH, GAME_HEIGHT/2 - missileNS::HEIGHT, false,this);
 		mc[i].initialize(this, missileNS::WIDTH, missileNS::HEIGHT, missileNS::TEXTURE_COLS, &misTexture);
 		mc[i].setMass(1200);
 		mc[i].setVelocity(D3DXVECTOR2(0,-360-(rand()%100)));
@@ -116,7 +120,11 @@ void RedSpace::initialize(HWND hwnd)
 	}
 
 
-
+	for(int i = 0; i < PARTICLEMAX; i++) { //NEEDS TO MAKE ACTIVE ONLY
+		particles[i] = SmokeParticle();
+		particles[i].initialize(this, 0,0, 0, &smokeTex);
+		//spaceBorn++;
+	}
 	
 
 	return;
@@ -151,6 +159,11 @@ void RedSpace::update()
 		}
 
 		//mc[i]->setVelocity(collison);
+	}
+
+	for(int i = 0 ; i < PARTICLEMAX; i++)
+	{
+		particles[i].update(frameTime);
 	}
 
 
@@ -195,7 +208,9 @@ void RedSpace::render()
 	for(int i = 0; i < MISSILEMAX; i++) {
 			mc[i].draw();
 	}
-
+	for(int i = 0; i < PARTICLEMAX; i++) {
+			particles[i].draw();
+	}
 	//ship.draw();                            // add the spaceship to the scene
 
 	graphics->spriteEnd();                  // end drawing sprites
@@ -240,5 +255,22 @@ void RedSpace::spawnMissle(D3DXVECTOR2 location, D3DXVECTOR2 velocity)
 				break;
 			}
 			misStorage++;
+		}
+}
+
+void RedSpace::spawnSmokeParticle(D3DXVECTOR2 location)
+{
+	for(int i = 0; i < PARTICLEMAX; i++)
+		{
+			if(partStorage == PARTICLEMAX) {
+				partStorage = 0;
+			}
+			if(!particles[partStorage].getActive()){
+				particles[partStorage].set(location);
+				partStorage++;
+				numActiveParticles++;
+				break;
+			}
+			partStorage++;
 		}
 }

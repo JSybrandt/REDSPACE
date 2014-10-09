@@ -5,6 +5,8 @@
 #include "Explosion.h"
 #include "constants.h"
 
+class RedSpace;
+
 namespace missileNS
 {
     const int WIDTH = 64;                   // image width
@@ -18,6 +20,7 @@ namespace missileNS
     const int   SHIP_START_FRAME = 0;       // ship starts at frame 0
     const int   SHIP_END_FRAME = 3;         // ship animation frames 0,1,2,3
     const float SHIP_ANIMATION_DELAY = 0.2f; // time between frames
+	const float SMOKE_DELAY = 0.5;
 }
 
 class Missile: public Actor
@@ -25,9 +28,7 @@ class Missile: public Actor
 public:
 	Missile();
 	~Missile() {}
-	Missile(float x, float y, float rad, float mass, 
-			   float xVel, float yVel, float xDel, float yDel, bool active);
-	Missile(float x, float y, bool active);
+	Missile(float x, float y, bool active,RedSpace* game);
 
 	void update(float frameTime);
 	void explode();
@@ -43,5 +44,9 @@ public:
 
 	Explosion explosion;
 	bool explosionOn;
+
+private:
+	RedSpace* game;
+	float timeSinceLastSmoke;
 };
 

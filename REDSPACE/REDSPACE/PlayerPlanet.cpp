@@ -6,7 +6,7 @@ PlayerPlanet::PlayerPlanet(float x, float y, float rad, float mass, RedSpace * g
 	//parent constructor
 	Planet::Planet(x,y,rad,mass,true);
 	cursorLocation = 0;
-	cursorSpeed = 10;
+	cursorSpeed = 5;
 	this->game = game;
 	this->controls = c;
 }
@@ -17,18 +17,19 @@ void PlayerPlanet::update(float frameTime)
 	if(input->wasKeyPressed(controls.up))
 	{
 
-		D3DXVECTOR2 aim(10,0);
-		aim.x = cos(cursorLocation)*aim.x - sin(cursorLocation)*aim.y;
-		aim.y= sin(cursorLocation)*aim.x + cos(cursorLocation)*aim.y;
-		aim = aim * 10;
+		D3DXVECTOR2 aim(1,0);
+		float nx = cos(cursorLocation)*aim.x - sin(cursorLocation)*aim.y;
+		float ny = sin(cursorLocation)*aim.x + cos(cursorLocation)*aim.y;
+		aim.x = nx; aim.y=ny;
 		//D3DXVec2Normalize(&aim,&aim);
 		D3DXVECTOR2 center = *getCenter();
-		D3DXVECTOR2 corner(getX(),getY());
-		D3DXVECTOR2 diff = center - corner;
+		center.x-=36;
+		center.y-=36;
+		D3DXVECTOR2 offset = center + (getWidth()*aim);
 		D3DXVECTOR2 loc = center;// + aim;
-		D3DXVECTOR2 vel = aim;
+		D3DXVECTOR2 vel = 700*aim;
 
-		game->spawnMissle(loc,vel);
+		game->spawnMissle(offset,vel);
 	}
 	if(input->wasKeyPressed(controls.down))
 	{

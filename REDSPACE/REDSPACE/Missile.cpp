@@ -1,4 +1,5 @@
 #include "Missile.h"
+#include "redspace.h"
 
 Missile::Missile() {
 	explosionOn = false;
@@ -22,7 +23,7 @@ Missile::Missile() {
 	gravity = 6.67428e-11f;
 }
 
-Missile::Missile(float x, float y, bool active = false) {
+Missile::Missile(float x, float y, bool active,RedSpace* game) {
 	explosionOn = false;
     spriteData.width = missileNS::WIDTH;           // size of Ship1
     spriteData.height = missileNS::HEIGHT;
@@ -43,26 +44,10 @@ Missile::Missile(float x, float y, bool active = false) {
     collisionType = CIRCLE;
 	gravity = 6.67428e-11f;
 	this->active = active;
+	this->game = game;
+	this->timeSinceLastSmoke = 0;
 }
 
-Missile::Missile(float x, float y, float rad, float mass, 
-			   float xVel, float yVel, float xDel, float yDel, bool active = false){
-				   explosionOn = false;
-				   spriteData.x    = x;              // location on screen
-				   spriteData.y    = y;
-				   radius          = rad;
-				   this->mass = mass;
-				   velocity.x = 0.0;
-				   velocity.y = 0.0;
-				   deltaV.x = 0.0;
-				   deltaV.y = 0.0;
-				   this->active = active;                  // the entity is active
-				   rotatedBoxReady = false;
-				   collisionType = BOX;
-				   health = 100;
-				   gravity = 6.67428e-11f;
-
-}
 
 void Missile::update(float frameTime)
 {
@@ -70,11 +55,23 @@ void Missile::update(float frameTime)
 		return;
 
     Actor::update(frameTime);
+
+	timeSinceLastSmoke+=frameDelay;
+	if(timeSinceLastSmoke >= missileNS::SMOKE_DELAY)
+	{
+		game->spawnSmokeParticle(*getCenter());
+		timeSinceLastSmoke = 0;
+	}
+
 	//Graphics::Vector2Normalize(&gravityV);
-    spriteData.angle += frameTime * missileNS::ROTATION_RATE;  // rotate the ship
+
+	float changeX = frameTime * this->velocity.x;
+	float changeY = frameTime * this->velocity.y;
+
+    spriteData.angle = atan2(changeX,-changeY); // rotate the ship
 	//spriteData.angle = Graphics::Vector2Normalize(&velocity);
-    spriteData.x += frameTime * this->velocity.x;     // move ship along X 
-    spriteData.y += frameTime * this->velocity.y;     // move ship along Y
+    spriteData.x += changeX;    // move ship along X 
+    spriteData.y += changeY;     // move ship along Y
 
 	if(explosionOn)
     {

@@ -98,6 +98,7 @@
     <ClCompile Include="Planet.cpp" />
     <ClCompile Include="PlayerPlanet.cpp" />
     <ClCompile Include="redspace.cpp" />
+    <ClCompile Include="SmokeParticle.cpp" />
     <ClCompile Include="textureManager.cpp" />
     <ClCompile Include="winmain.cpp" />
   </ItemGroup>
@@ -116,10 +117,8 @@
     <ClInclude Include="Missile.h" />
     <ClInclude Include="Planet.h" />
     <ClInclude Include="redspace.h" />
+    <ClInclude Include="SmokeParticle.h" />
     <ClInclude Include="textureManager.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
