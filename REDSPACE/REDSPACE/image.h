@@ -68,6 +68,9 @@ class Image
     // Return center Y.
     virtual float getCenterY()      {return spriteData.y + spriteData.height/2*getScale();}
 
+	virtual void setCenterX(float x){spriteData.x = x - spriteData.width/2*getScale();}
+	virtual void setCenterY(float y){spriteData.y = y - spriteData.height/2*getScale();}
+
     // Return rotation angle in degrees.
     virtual float getDegrees()      {return spriteData.angle*(180.0f/(float)PI);}
 

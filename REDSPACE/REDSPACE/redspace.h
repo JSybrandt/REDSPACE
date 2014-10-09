@@ -10,6 +10,10 @@
 #include "game.h"
 #include "Planet.h"
 #include "Missile.h"
+#include "PlayerPlanet.h"
+#include "Controls.h"
+
+
 
 
 //=============================================================================
@@ -22,17 +26,21 @@ private:
 	TextureManager backgroundTex;   // nebula texture
     TextureManager planetTexture;   // planet texture
 	TextureManager marsTex;
+	TextureManager earthTex;
     TextureManager misTexture;     // missile texture
 	TextureManager explosionTex;
-	Planet  planet;         // the planet
-	Planet	mars;
-	Planet mars2;
+	TextureManager cursorTex;
+	Planet  sun;         
+	PlayerPlanet mars;
+	PlayerPlanet earth;
 	Missile missile;
 	Image   background;         // backdrop image
 	Missile mc[MISSILEMAX];
 	Explosion exp[EXPMAX];
-	int spaceBorn;
+	int numActiveMissles;
 	int misStorage;
+
+	Controls P1Controls, P2Controls;
 
 
 public:
@@ -50,6 +58,9 @@ public:
     void render();      // "
     void releaseAll();
     void resetAll();
+
+	void spawnMissle(D3DXVECTOR2 location, D3DXVECTOR2 velocity);
+
 };
 
 #endif

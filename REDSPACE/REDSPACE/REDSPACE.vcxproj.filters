@@ -63,6 +63,9 @@
     <ClCompile Include="audio.cpp">
       <Filter>Source Files\Background</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerPlanet.cpp">
+      <Filter>Source Files\GameFiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h">
@@ -103,6 +106,12 @@
     </ClInclude>
     <ClInclude Include="audio.h">
       <Filter>Header Files\Background</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerPlanet.h">
+      <Filter>Header Files\GameFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls.h">
+      <Filter>Header Files\GameFiles</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

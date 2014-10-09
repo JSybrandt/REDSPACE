@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Actor.h"
 #include "constants.h"
 
@@ -11,3 +13,4 @@ public:
 	void update(float frameTime);
 	void explode();
 };
+

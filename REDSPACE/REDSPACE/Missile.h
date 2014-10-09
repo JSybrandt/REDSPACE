@@ -1,11 +1,14 @@
+#pragma once
+
+
 #include "Actor.h"
 #include "Explosion.h"
 #include "constants.h"
 
 namespace missileNS
 {
-    const int WIDTH = 60;                   // image width
-    const int HEIGHT = 45;                  // image height
+    const int WIDTH = 64;                   // image width
+    const int HEIGHT = 64;                  // image height
     const int X = GAME_WIDTH/2 - WIDTH/2;   // location on screen
     const int Y = GAME_HEIGHT/2 - HEIGHT/2;
     const float ROTATION_RATE = (float)PI/4; // radians per second

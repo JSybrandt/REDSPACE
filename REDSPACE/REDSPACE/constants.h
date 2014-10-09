@@ -31,7 +31,9 @@ const char BACKGROUND_IMAGE[] = "pictures\\background.jpg";  // photo source NAS
 const char PLANET_IMAGE[] = "pictures\\sun1.png"; // picture of planet
 const char MISSILE_IMAGE[] = "pictures\\missile.png"; //More CC3 and something else
 const char MARS_IMAGE[] = "pictures\\mars.png";	//CC3 art
+const char EARTH_IMAGE[] = "pictures\\earth.png";	//CC3 art
 const char EXP_IMAGE[] = "pictures\\explosion.png"; //Public Domain
+const char CURSOR_IMAGE[] = "pictures\\cursor.png";
 
 //Sound Locations
 const char WAVE_BANK[] = "audio\\Win\\wavesExample1.xwb";
