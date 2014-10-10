@@ -46,6 +46,7 @@ Missile::Missile(float x, float y, bool active,RedSpace* game) {
 	this->active = active;
 	this->game = game;
 	this->timeSinceLastSmoke = 0;
+	this->age = 0;
 }
 
 
@@ -55,6 +56,12 @@ void Missile::update(float frameTime)
 		return;
 
     Actor::update(frameTime);
+
+	age += frameTime;
+	if(age >= missileNS::LIFESPAN)
+	{
+		setActive(false);
+	}
 
 	timeSinceLastSmoke+=frameDelay;
 	if(timeSinceLastSmoke >= missileNS::SMOKE_DELAY)

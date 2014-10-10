@@ -23,9 +23,9 @@ void PlayerPlanet::update(float frameTime)
 		aim.x = nx; aim.y=ny;
 		//D3DXVec2Normalize(&aim,&aim);
 		D3DXVECTOR2 center = *getCenter();
-		center.x-=36;
-		center.y-=36;
-		D3DXVECTOR2 offset = center + (getWidth()*aim);
+		//center.x-=36;
+		//center.y-=36;
+		D3DXVECTOR2 offset = center + ((getWidth()+10)*aim);
 		D3DXVECTOR2 loc = center;// + aim;
 		D3DXVECTOR2 vel = 700*aim;
 

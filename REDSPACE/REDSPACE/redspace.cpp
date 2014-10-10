@@ -19,8 +19,8 @@ RedSpace::RedSpace()
 	numActiveMissles = 0;
 	numActiveParticles = 0;
 	sun = Planet(GAME_WIDTH/2 - 128/2.0, GAME_HEIGHT/2 - 120/2.0, 70/2.0,5.0e14f,true);
-	earth = PlayerPlanet(GAME_WIDTH/2 - 128/2.0, GAME_HEIGHT/2 - 120/2.0, 10/2.0,5.0e14f,this,P1Controls);
-	mars = PlayerPlanet(GAME_WIDTH/2 - 128/2.0, GAME_HEIGHT/2 - 120/2.0, 10/2.0,5.0e14f,this,P2Controls);
+	earth = PlayerPlanet(GAME_WIDTH/2 - 128/2.0, GAME_HEIGHT/2 - 120/2.0, 100, 5.0e14f,this,P1Controls);
+	mars = PlayerPlanet(GAME_WIDTH/2 - 128/2.0, GAME_HEIGHT/2 - 120/2.0, 100, 5.0e14f,this,P2Controls);
 	misStorage = 0;
 	partStorage = 0;
 }
@@ -99,6 +99,10 @@ void RedSpace::initialize(HWND hwnd)
 
 	//mars.setResistance(4360);
 
+	earth.setCollisionRadius(earth.getWidth()/2);
+	mars.setCollisionRadius(mars.getWidth()/2);
+
+
 	if (!missile.initialize(this, missileNS::WIDTH, missileNS::HEIGHT, missileNS::TEXTURE_COLS, &misTexture))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing missle"));
 
@@ -109,7 +113,7 @@ void RedSpace::initialize(HWND hwnd)
 		mc[i].initialize(this, missileNS::WIDTH, missileNS::HEIGHT, missileNS::TEXTURE_COLS, &misTexture);
 		mc[i].setMass(1200);
 		mc[i].setVelocity(D3DXVECTOR2(0,-360-(rand()%100)));
-
+		//mc[i].setCollisionRadius(32);
 		mc[i].explosion.initialize(this, 32, 32, 2, &explosionTex);
 		mc[i].explosion.setFrames(EXP_START, EXP_END);
 		mc[i].explosion.setCurrentFrame(EXP_START);
@@ -246,8 +250,8 @@ void RedSpace::spawnMissle(D3DXVECTOR2 location, D3DXVECTOR2 velocity)
 				misStorage = 0;
 			}
 			if(!mc[misStorage].getActive()){
-				mc[misStorage].setX(location.x);
-				mc[misStorage].setY(location.y);
+				mc[misStorage].setCenterX(location.x);
+				mc[misStorage].setCenterY(location.y);
 				mc[misStorage].setVelocity(velocity);
 				mc[misStorage].activate();
 				numActiveMissles++;

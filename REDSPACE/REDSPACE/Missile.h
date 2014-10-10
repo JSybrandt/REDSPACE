@@ -21,6 +21,7 @@ namespace missileNS
     const int   SHIP_END_FRAME = 3;         // ship animation frames 0,1,2,3
     const float SHIP_ANIMATION_DELAY = 0.2f; // time between frames
 	const float SMOKE_DELAY = 0.5;
+	const float LIFESPAN = 10;
 }
 
 class Missile: public Actor
@@ -48,5 +49,6 @@ public:
 private:
 	RedSpace* game;
 	float timeSinceLastSmoke;
+	float age;
 };
 

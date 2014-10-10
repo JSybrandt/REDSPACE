@@ -18,7 +18,6 @@ public:
 	void draw();
 	void setCursor(TextureManager * c);
 private:
-	void shoot();
 
 	//aiming location in radians
 	float cursorLocation;
