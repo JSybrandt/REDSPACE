@@ -69,6 +69,9 @@
     <ClCompile Include="SmokeParticle.cpp">
       <Filter>Source Files\GameFiles</Filter>
     </ClCompile>
+    <ClCompile Include="textDX.cpp">
+      <Filter>Source Files\Background</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h">
@@ -118,6 +121,9 @@
     </ClInclude>
     <ClInclude Include="SmokeParticle.h">
       <Filter>Header Files\GameFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="textDX.h">
+      <Filter>Header Files\Background</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

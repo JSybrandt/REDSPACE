@@ -130,6 +130,15 @@ void RedSpace::initialize(HWND hwnd)
 		//spaceBorn++;
 	}
 	
+	if(!earthPopText.initialize(graphics,50,true,false,"Copperplate Gothic")) 
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing Constantia Font"));
+	if(!marsPopText.initialize(graphics,50,true,false,"Copperplate Gothic"))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing Constantia Font"));
+
+	earthPopText.setFontColor(graphicsNS::BLUE);
+	marsPopText.setFontColor(graphicsNS::RED);
+
+	audio->playCue(SC_BACKGROUND);
 
 	return;
 }
@@ -190,11 +199,20 @@ void RedSpace::collisions()
 {
 	VECTOR2 collison;
 	for(int i = 0; i < MISSILEMAX; i++) {
-		if(mc[i].getActive() && (mc[i].collidesWith(sun,collison) || mc[i].collidesWith(mars,collison) || mc[i].collidesWith(earth,collison) )) {
+		bool hitEarth = mc[i].collidesWith(earth,collison);
+		bool hitMars = mc[i].collidesWith(mars,collison);
+		if(mc[i].getActive() && (mc[i].collidesWith(sun,collison) || hitEarth || hitMars )) {
+
 			mc[i].setActive(false);
 			numActiveMissles--;
-			//mc[i]->damage(PLANET);
+
+			int peopleDead = rand()%100000000+783000000;
+			if(hitEarth)earth.killPeople(peopleDead);
+			if(hitMars)mars.killPeople(peopleDead);
+
+
 		}
+		
 	}
 }
 
@@ -216,6 +234,9 @@ void RedSpace::render()
 			particles[i].draw();
 	}
 	//ship.draw();                            // add the spaceship to the scene
+
+	earthPopText.print(std::to_string(earth.getPopulation()),GAME_WIDTH/6,GAME_HEIGHT*7/8);
+	marsPopText.print(std::to_string(mars.getPopulation()),GAME_WIDTH*4/6,GAME_HEIGHT*7/8);
 
 	graphics->spriteEnd();                  // end drawing sprites
 
@@ -256,6 +277,7 @@ void RedSpace::spawnMissle(D3DXVECTOR2 location, D3DXVECTOR2 velocity)
 				mc[misStorage].activate();
 				numActiveMissles++;
 				misStorage++;
+				audio->playCue(SC_LAUNCH);
 				break;
 			}
 			misStorage++;
@@ -278,3 +300,5 @@ void RedSpace::spawnSmokeParticle(D3DXVECTOR2 location)
 			partStorage++;
 		}
 }
+
+

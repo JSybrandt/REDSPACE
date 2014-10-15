@@ -101,3 +101,15 @@ void Missile::draw() {
     if(active)
         Actor::draw();              // draw ship
 }
+
+
+void  Missile::setActive(bool a) {
+		active = a;
+		if(!a) {
+			//if on screen
+			if(getX() > 0 && getX()<GAME_WIDTH && getY()>0 && getY()<GAME_HEIGHT)
+				audio->playCue(SC_HIT);
+			explosionOn = true;
+			explosion.activate();
+		}
+	}

@@ -37,13 +37,16 @@ const char CURSOR_IMAGE[] = "pictures\\cursor.png";
 const char SMOKE_IMAGE[] = "pictures\\smoke.png";
 
 //Sound Locations
-const char WAVE_BANK[] = "audio\\Win\\wavesExample1.xwb";
-const char SOUND_BANK[] = "audio\\win\\SoundsExample1.xsb";
-const char XGS_FILE[]   = "audio\\Win\\SpaceWar.xgs";
+const char WAVE_BANK[] = "audio\\Win\\Wave Bank.xwb";
+const char SOUND_BANK[] = "audio\\win\\Sound Bank.xsb";
+const char XGS_FILE[]   = "audio\\Win\\audioProject.xgs";
 
 //Cue Names
-const char BOOM[] = "bang"; //MUST be exactly the same as cue name
-const char AZ[] = "Aldnoah";
+const char SC_LAUNCH[] = "launch"; //MUST be exactly the same as cue name
+const char SC_BACKGROUND[] = "background";
+const char SC_HIT[] = "hit";
+const char SC_SHOT1[] = "shot1";
+const char SC_SHOT2[] = "shot2";
 
 // window
 const char CLASS_NAME[] = "Spacewar";

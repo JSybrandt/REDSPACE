@@ -9,11 +9,25 @@ PlayerPlanet::PlayerPlanet(float x, float y, float rad, float mass, RedSpace * g
 	cursorSpeed = 5;
 	this->game = game;
 	this->controls = c;
+	population = playerPlanetNS::STARTING_POP;
 }
 
 void PlayerPlanet::update(float frameTime)
 {
 	Planet::update(frameTime);
+
+	if(population < displayedPopulation)
+	{
+		displayedPopulation -= delPop * frameTime;
+	}
+	if(displayedPopulation < population) displayedPopulation = population;
+
+	if(coolDown > 0)
+	{
+		coolDown -= frameTime;
+	}
+	if(coolDown < 0) coolDown = 0;
+
 	if(input->wasKeyPressed(controls.up))
 	{
 
@@ -31,9 +45,22 @@ void PlayerPlanet::update(float frameTime)
 
 		game->spawnMissle(offset,vel);
 	}
-	if(input->wasKeyPressed(controls.down))
+	if(input->isKeyDown(controls.down))
 	{
+		if(coolDown == 0)
+		{
+			coolDown = playerPlanetNS::SHOT_DELAY;
+			if(rand()%2)
+			{
+				audio->playCue(SC_SHOT1);
+			}
+			else
+			{
+				audio->playCue(SC_SHOT2);
+			}
+		}
 	}
+
 	if(input->isKeyDown(controls.left))
 	{
 		cursorLocation -= cursorSpeed * frameTime;

@@ -34,14 +34,7 @@ public:
 	void update(float frameTime);
 	void explode();
 	void draw();
-	void  setActive(bool a) {
-		active = a;
-		if(!a) {
-			audio->playCue(BOOM);
-			explosionOn = true;
-			explosion.activate();
-		}
-	}
+	void  setActive(bool a);
 
 	Explosion explosion;
 	bool explosionOn;

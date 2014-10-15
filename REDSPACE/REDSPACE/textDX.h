@@ -12,6 +12,8 @@
 #include "constants.h"
 #include "graphics.h"
 
+typedef LPD3DXFONT LP_DXFONT;
+
 class TextDX
 {
 private:

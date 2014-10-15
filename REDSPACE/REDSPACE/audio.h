@@ -55,6 +55,8 @@ class Audio
     // Resume playback of paused sound specified by category from sound bank.
     // If category does not exist no error occurs.
     void resumeCategory(const char category[]);
+
+	void playMusic(const char cue[]);
 };
 
 #endif

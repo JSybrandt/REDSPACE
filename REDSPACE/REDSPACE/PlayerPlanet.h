@@ -7,6 +7,11 @@
 
 class RedSpace;
 
+namespace playerPlanetNS
+{
+	const float SHOT_DELAY = 0.075;
+	const long long int STARTING_POP = 5000000000;
+}
 
 class PlayerPlanet : public Planet
 {
@@ -17,6 +22,8 @@ public:
 	void modifyCursorLocation(float delta);
 	void draw();
 	void setCursor(TextureManager * c);
+	void killPeople(int dead){population = max(0,population-dead); delPop=displayedPopulation-population;}
+	long long int getPopulation(){return displayedPopulation;}
 private:
 
 	//aiming location in radians
@@ -27,5 +34,9 @@ private:
 	Image cursor;
 	RedSpace* game;
 	Controls controls;
+	float coolDown;
+	long long int displayedPopulation;
+	long long int population;
+	long long int delPop;
 };
 #endif

@@ -13,6 +13,7 @@
 #include "PlayerPlanet.h"
 #include "Controls.h"
 #include "SmokeParticle.h"
+#include <string>
 
 
 
@@ -45,6 +46,8 @@ private:
 	int misStorage;
 	int partStorage;
 	Controls P1Controls, P2Controls;
+	TextDX earthPopText;
+	TextDX marsPopText;
 
 
 public:

@@ -224,4 +224,3 @@ void Audio::resumeCategory(const char category[])
     XACTCATEGORY iCategory = xactEngine->GetCategory(category);
     xactEngine->Pause(iCategory,false);
 }
-

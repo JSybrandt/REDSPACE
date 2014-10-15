@@ -99,6 +99,7 @@
     <ClCompile Include="PlayerPlanet.cpp" />
     <ClCompile Include="redspace.cpp" />
     <ClCompile Include="SmokeParticle.cpp" />
+    <ClCompile Include="textDX.cpp" />
     <ClCompile Include="textureManager.cpp" />
     <ClCompile Include="winmain.cpp" />
   </ItemGroup>
@@ -118,6 +119,7 @@
     <ClInclude Include="Planet.h" />
     <ClInclude Include="redspace.h" />
     <ClInclude Include="SmokeParticle.h" />
+    <ClInclude Include="textDX.h" />
     <ClInclude Include="textureManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
