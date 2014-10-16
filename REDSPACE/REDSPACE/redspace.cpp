@@ -29,16 +29,6 @@ RedSpace::RedSpace()
 	NewsLocation = GAME_WIDTH;
 	currentNewsIndex = rand()%NUM_NEWS_ITEMS;
 
-	earthPopRect.left = GAME_WIDTH/6;
-	earthPopRect.right = GAME_WIDTH/6 + 250;
-	earthPopRect.top = GAME_HEIGHT*7/8;
-	earthPopRect.bottom = GAME_HEIGHT*7/8 + 50;
-
-	marsPopRect.left = GAME_WIDTH*4/6;
-	marsPopRect.right = GAME_WIDTH*4/6 + 250;
-	marsPopRect.top = GAME_HEIGHT*7/8;
-	marsPopRect.bottom = GAME_HEIGHT*7/8 + 50;
-
 	gameRunning = true;
 }
 
@@ -202,9 +192,9 @@ void RedSpace::initialize(HWND hwnd)
 		shots[i].initialize(this,0,0,0,&shotTex);
 	}
 
-	if(!earthText.initialize(graphics,50,true,false,"Copperplate Gothic")) 
+	if(!earthText.initialize(graphics,75,true,false,"Copperplate Gothic")) 
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing Constantia Font"));
-	if(!marsText.initialize(graphics,50,true,false,"Copperplate Gothic"))
+	if(!marsText.initialize(graphics,75,true,false,"Copperplate Gothic"))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing Constantia Font"));
 	if(!NewsText.initialize(graphics,25,true,true,"Courier New"))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing news Font"));
@@ -424,8 +414,8 @@ void RedSpace::render()
 	}
 
 	
-	earthText.print(std::to_string(earth.getPopulation()),earthPopRect,DT_RIGHT);
-	marsText.print(std::to_string(mars.getPopulation()),marsPopRect,DT_RIGHT);
+	earthText.print(getPopulationString(earth.getPopulation()),GAME_WIDTH/6,GAME_HEIGHT*7/8);
+	marsText.print(getPopulationString(mars.getPopulation()),GAME_WIDTH*2/3,GAME_HEIGHT*7/8);
 
 
 	graphics->spriteEnd();                  // end drawing sprites
@@ -522,4 +512,12 @@ void RedSpace::updateNews()
 			currentNewsIndex = rand()%NUM_NEWS_ITEMS;
 		NewsLocation = GAME_WIDTH;
 	}
+}
+
+string RedSpace::getPopulationString(long long int pop)
+{
+	float percent = pop/float(playerPlanetNS::STARTING_POP)*100;
+	int formattedPercent = percent;
+	int dec = (percent-int(percent)) * 100;
+	return std::to_string(formattedPercent)+"."+(dec < 10?"0":"")+std::to_string(dec)+"%";
 }

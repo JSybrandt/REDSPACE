@@ -62,8 +62,6 @@ private:
 	TextDX NewsText;
 	float NewsLocation;
 	int currentNewsIndex;
-	RECT earthPopRect;
-	RECT marsPopRect;
 
 public:
     // Constructor
@@ -86,6 +84,8 @@ public:
 	void spawnShot(D3DXVECTOR2 location, D3DXVECTOR2 velocity);
 
 	void updateNews();
+
+	string getPopulationString(long long int pop);
 
 	bool gameRunning;
 };
