@@ -24,12 +24,12 @@ const char * NEWS[] = {
 	"North Korea vows to end the war before Great Leader's birthday.",
 	"Kim Jong Un announces plan to bring moon to North Korea.",
 	"Colorblind players of Red Space overjoyed by its orange-green color scheme.",
-	"Factory workers overjoyed to find unexploded warhead is 'reusable'",
+	"Factory workers overjoyed to find unexploded warhead is 'reusable.'",
 	"Local man attempts DIY nuclear warhead. There were no survivors.",
 	"Earth wonders where moon went.",
 	"Mars thanks Earth for eradicating Ebola.",
 	"Roaches of Mars, please stay within designated reserves.",
 	"Martians realease statemnt to the Terran Alliance, 'We're CRIMSON, quit calling us red.'",
 	"Death toll today on the Red Plannet remains a consistent zero. Unfortunantly, billions of redshirt casualties have been reported.",
-	"Man licks uranium, gains 'SUPER TASTE'"
+	"Man licks uranium, gains 'SUPER TASTE.'"
 };

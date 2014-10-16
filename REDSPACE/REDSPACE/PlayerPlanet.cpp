@@ -6,7 +6,6 @@ PlayerPlanet::PlayerPlanet(float x, float y, float rad, float mass, RedSpace * g
 	//parent constructor
 	Planet::Planet(x,y,rad,mass,true);
 	cursorLocation = 0;
-	cursorSpeed = 5;
 	this->game = game;
 	this->controls = c;
 	population = playerPlanetNS::STARTING_POP;
@@ -40,7 +39,7 @@ void PlayerPlanet::update(float frameTime)
 		float ny = sin(cursorLocation)*aim.x + cos(cursorLocation)*aim.y;
 		aim.x = nx; aim.y=ny;
 		D3DXVECTOR2 offset = *getCenter() + ((getWidth()+10)*aim);
-		D3DXVECTOR2 vel = 700*aim;
+		D3DXVECTOR2 vel = 800*aim;
 
 		game->spawnMissle(offset,vel,getColorFilter());
 	}
@@ -68,11 +67,11 @@ void PlayerPlanet::update(float frameTime)
 
 	if(input->isKeyDown(controls.left))
 	{
-		cursorLocation -= cursorSpeed * frameTime;
+		cursorLocation -= playerPlanetNS::CURSOR_SPEED  * frameTime;
 	}
 	if(input->isKeyDown(controls.right))
 	{
-		cursorLocation += cursorSpeed * frameTime;
+		cursorLocation += playerPlanetNS::CURSOR_SPEED * frameTime;
 	}
 
 	currentResource += playerPlanetNS::RECHARGE_RATE * frameTime;

@@ -108,10 +108,7 @@ void Missile::draw() {
 
 void  Missile::setActive(bool a) {
 		active = a;
-		if(!a) {
-			//if on screen
-			if(getX() > 0 && getX()<GAME_WIDTH && getY()>0 && getY()<GAME_HEIGHT)
-				audio->playCue(SC_HIT);
+		if(!a) {				
 			explosionOn = true;
 			explosion.activate();
 		}

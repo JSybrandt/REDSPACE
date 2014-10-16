@@ -152,27 +152,29 @@ void RedSpace::initialize(HWND hwnd)
 	const float REDUCE = 7.7;
 	const float RADIUS = 500;
 	for(int i = 0; i < ASTMAX; i++) { //NEEDS TO MAKE ACTIVE ONLY
-		float x = (GAME_WIDTH/2.0 + RADIUS*cos((PI/180)*divisor*(i))); //Make these random around the range of spawning
-		float y = (GAME_HEIGHT/2.0 + RADIUS*sin((PI/180)*divisor*(i))); //Make these random around the range of spawning
-		astField[i] = Asteroid(x, y, 20/2.0,5.0e3f,true);
-		astField[i].initialize(this, 48, 48, 0, &astTex);
 
-		VECTOR2 angVel((GAME_HEIGHT/2 - y)/REDUCE,(GAME_WIDTH/2 - x)/REDUCE);
-		
-		astField[i].setVelocity(angVel.x, angVel.y);
-		if(y<400 && x>=640) { //Quadrant 1
-			astField[i].setVelocity(-angVel.x, angVel.y);
-		}
-		else if(y<400 && x<640) { //Quadrant 2
-			astField[i].setVelocity(-angVel.x, angVel.y);
-		}
-		else if(y>400 && x<640) { //Quandrant 3
-			astField[i].setVelocity(-angVel.x, angVel.y);
-		}
-		else if(y>400 && x>=640) { //Quandrant 4
-			astField[i].setVelocity(-angVel.x, angVel.y);
-		}
-		astField[i].setResistance(.014); //.014
+		VECTOR2 loc(1,0);
+		loc *=  GAME_WIDTH*4/10 + (rand()%100/100.0)*GAME_WIDTH/10;
+
+		float spawnDirection = float(i)/ASTMAX * 2*PI;
+		float nx = cos(spawnDirection)*loc.x - sin(spawnDirection)*loc.y;
+		float ny = sin(spawnDirection)*loc.x + cos(spawnDirection)*loc.y;
+		loc.x=nx;loc.y=ny;
+
+		loc += *sun.getCenter();
+
+		astField[i] = Asteroid(loc.x, loc.y, 20/2.0,5.0e3f,true);
+		astField[i].initialize(this, 0, 0, 0, &astTex);
+
+		float direction = -PI/2;
+		D3DXVECTOR2 vel = *astField[i].getCenter() - *sun.getCenter();
+		D3DXVec2Normalize(&vel,&vel);
+		vel *= 600;
+		nx = cos(direction)*vel.x - sin(direction)*vel.y;
+		ny = sin(direction)*vel.x + cos(direction)*vel.y;
+		vel.x = nx; vel.y=ny;
+		astField[i].setVelocity(vel);
+		//astField[i].setResistance(.014); //.014
 	}
 
 
@@ -291,19 +293,21 @@ void RedSpace::collisions()
 
 		//if hit by a shot
 		bool hitShot = false;
-		for(int k = 0; k < SHOTMAX; k++){if(mc[i].collidesWith(shots[k],collison)){hitShot=true; shots[k].setActive(false);}}
+		for(int k = 0; k < SHOTMAX; k++){if(mc[i].collidesWith(shots[k],collison)){hitShot=true; shots[k].setActive(false);break;}}
 
+		bool hitAst = false;
 		//if hit asteroid
 		for(int k = 0; k < ASTMAX; k++){
 			if(mc[i].collidesWith(astField[k],collison)){
-				mc[i].setActive(false);
+				hitAst = true;
+				break;
 			}
 		}
 
 		bool hitEarth = mc[i].collidesWith(earth,collison);
 		bool hitMars = mc[i].collidesWith(mars,collison);
 
-		if(mc[i].getActive() && (mc[i].collidesWith(sun,collison) || hitEarth || hitMars || hitShot)) {
+		if(mc[i].getActive() && (mc[i].collidesWith(sun,collison) || hitEarth || hitMars || hitShot||hitAst)) {
 
 			mc[i].setActive(false);
 			numActiveMissles--;
@@ -311,6 +315,8 @@ void RedSpace::collisions()
 			int peopleDead = rand()%100000000+783000000;
 			if(hitEarth)earth.killPeople(peopleDead);
 			if(hitMars)mars.killPeople(peopleDead);
+
+			audio->playCue(SC_HIT);
 
 
 		}
@@ -325,7 +331,7 @@ void RedSpace::collisions()
 		if(shots[i].collidesWith(sun,collison)||hitEarth||hitMars)
 		{
 			shots[i].setActive(false);
-			int peopleDead = rand()%10+1;
+			int peopleDead = rand()%100+10;
 			if(hitEarth)earth.killPeople(peopleDead);
 			if(hitMars)
 				mars.killPeople(peopleDead);
@@ -334,12 +340,24 @@ void RedSpace::collisions()
 
 	for(int i = 0 ; i < ASTMAX; i++) { //Asteroid field collision with planets
 		VECTOR2 collison;
+		//if hit by a shot
+		bool hitShot = false;
+		for(int k = 0; k < SHOTMAX; k++){if(astField[i].collidesWith(shots[k],collison)){hitShot=true; shots[k].setActive(false);}}
 		bool hitEarth = astField[i].collidesWith(earth,collison);
 		bool hitMars = astField[i].collidesWith(mars,collison);
-		if(astField[i].collidesWith(sun,collison)||hitEarth||hitMars)
+		if(astField[i].collidesWith(sun,collison)||hitEarth||hitMars||hitShot)
 		{
 			astField[i].setActive(false);
+			if(hitEarth){
+				earth.killPeople(rand()%100000+1000000);
+				audio->playCue(SC_CRASH);
+			}
+			if(hitMars){
+				mars.killPeople(rand()%1000000+1000000);
+				audio->playCue(SC_CRASH);
+			}
 		}
+
 	}
 
 

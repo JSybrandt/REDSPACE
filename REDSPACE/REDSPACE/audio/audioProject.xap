@@ -16,8 +16,8 @@ Global Settings
     Header File = audioProject.h;
     Exclude Category Names = 0;
     Exclude Variable Names = 0;
-    Last Modified Low = 1718782033;
-    Last Modified High = 30402745;
+    Last Modified Low = 488226600;
+    Last Modified High = 30402939;
 
     Category
     {
@@ -227,10 +227,10 @@ Wave Bank
     Compression Preset Name = <none>;
     Xbox Bank Last Modified Low = 0;
     Xbox Bank Last Modified High = 0;
-    PC Bank Last Modified Low = 268214324;
-    PC Bank Last Modified High = 30402754;
-    Bank Last Revised Low = 3993679046;
-    Bank Last Revised High = 30402753;
+    PC Bank Last Modified Low = 488316605;
+    PC Bank Last Modified High = 30402939;
+    Bank Last Revised Low = 2599218980;
+    Bank Last Revised High = 30402938;
 
     Wave
     {
@@ -250,8 +250,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 2423223963;
-            Last Modified High = 30402744;
+            Last Modified Low = 868402101;
+            Last Modified High = 30402758;
         }
     }
 
@@ -292,12 +292,12 @@ Wave Bank
             Sampling Rate = 44100;
             Bits Per Sample = 1;
             Play Region Offset = 44;
-            Play Region Length = 772028;
+            Play Region Length = 286048;
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 2058753116;
-            Last Modified High = 30402744;
+            Last Modified Low = 542443458;
+            Last Modified High = 30402758;
         }
     }
 
@@ -346,6 +346,29 @@ Wave Bank
             Last Modified High = 30402753;
         }
     }
+
+    Wave
+    {
+        Name = crash;
+        File = crash.wav;
+        Build Settings Last Modified Low = 2478072051;
+        Build Settings Last Modified High = 30402938;
+
+        Cache
+        {
+            Format Tag = 0;
+            Channels = 1;
+            Sampling Rate = 11025;
+            Bits Per Sample = 1;
+            Play Region Offset = 44;
+            Play Region Length = 12726;
+            Loop Region Offset = 0;
+            Loop Region Length = 0;
+            File Type = 1;
+            Last Modified Low = 388770912;
+            Last Modified High = 30402939;
+        }
+    }
 }
 
 Sound Bank
@@ -355,8 +378,8 @@ Sound Bank
     Windows File = Win\Sound Bank.xsb;
     Xbox Bank Path Edited = 0;
     Windows Bank Path Edited = 0;
-    Bank Last Modified Low = 3160018088;
-    Bank Last Modified High = 30402755;
+    Bank Last Modified Low = 489356665;
+    Bank Last Modified High = 30402939;
     Header Last Modified High = 0;
     Header Last Modified Low = 0;
 
@@ -596,6 +619,53 @@ Sound Bank
         }
     }
 
+    Sound
+    {
+        Name = crash;
+        Volume = -1200;
+        Pitch = 0;
+        Priority = 0;
+
+        Category Entry
+        {
+            Name = Default;
+        }
+
+        Track
+        {
+            Volume = 0;
+            Use Filter = 0;
+
+            Play Wave Event
+            {
+                Break Loop = 0;
+                Use Speaker Position = 0;
+                Use Center Speaker = 1;
+                New Speaker Position On Loop = 1;
+                Speaker Position Angle = 0.000000;
+                Speaker Position Arc = 0.000000;
+
+                Event Header
+                {
+                    Timestamp = 0;
+                    Relative = 0;
+                    Random Recurrence = 0;
+                    Random Offset = 0;
+                }
+
+                Wave Entry
+                {
+                    Bank Name = Wave Bank;
+                    Bank Index = 0;
+                    Entry Name = crash;
+                    Entry Index = 5;
+                    Weight = 255;
+                    Weight Min = 0;
+                }
+            }
+        }
+    }
+
     Cue
     {
         Name = launch;
@@ -691,6 +761,26 @@ Sound Bank
         {
             Name = shot2;
             Index = 4;
+            Weight Min = 0;
+            Weight Max = 255;
+        }
+    }
+
+    Cue
+    {
+        Name = crash;
+
+        Variation
+        {
+            Variation Type = 3;
+            Variation Table Type = 1;
+            New Variation on Loop = 0;
+        }
+
+        Sound Entry
+        {
+            Name = crash;
+            Index = 5;
             Weight Min = 0;
             Weight Max = 255;
         }

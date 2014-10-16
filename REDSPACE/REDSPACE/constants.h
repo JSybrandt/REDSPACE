@@ -49,6 +49,7 @@ const char SC_BACKGROUND[] = "background";
 const char SC_HIT[] = "hit";
 const char SC_SHOT1[] = "shot1";
 const char SC_SHOT2[] = "shot2";
+const char SC_CRASH[] = "crash";
 
 // window
 const char CLASS_NAME[] = "Red Space";
@@ -74,7 +75,7 @@ const int MISSILEMAX = 100;
 const int PARTICLEMAX = 1000;
 const int SHOTMAX = 100;
 const int EXPMAX = 200;
-const int ASTMAX = 20;
+const int ASTMAX = 400;
 const double PI = 3.14159265;
 const float FRAME_RATE  = 100.0f;               // the target frame rate (frames/sec)
 const float MIN_FRAME_RATE = 10.0f;             // the minimum frame rate

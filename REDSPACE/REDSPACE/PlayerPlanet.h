@@ -9,14 +9,15 @@ class RedSpace;
 
 namespace playerPlanetNS
 {
-	const float SHOT_DELAY = 0.075;
+	const float SHOT_DELAY = 0.05;
 	const float NUKE_DELAY = 0.3;
 	const long long int STARTING_POP = 10000000000;
 	const float CURSOR_INACURACY = PI/8;
 	const float MAX_RESOURCE = 100;
-	const float NUKE_COST = 30;
-	const float SHOT_COST = 5;
-	const float RECHARGE_RATE = 20;
+	const float NUKE_COST = 40;
+	const float SHOT_COST = 3;
+	const float RECHARGE_RATE = 25;
+	const float CURSOR_SPEED = 3*PI;
 }
 
 class PlayerPlanet : public Planet
@@ -37,7 +38,7 @@ private:
 	float cursorLocation;
 	//current ammo bar level
 	float ammoLevel;
-	float cursorSpeed;
+	
 	Image cursor;
 	RedSpace* game;
 	Controls controls;
