@@ -15,6 +15,8 @@
 #include "SmokeParticle.h"
 #include"Shot.h"
 #include <string>
+using std::string;
+#include <ctime>;
 
 
 //=============================================================================
@@ -52,10 +54,12 @@ private:
 	int partStorage;
 	int shotStorage;
 	Controls P1Controls, P2Controls;
-	TextDX earthPopText;
-	TextDX marsPopText;
-
-
+	TextDX earthText;
+	TextDX marsText;
+	TextDX NewsText;
+	float NewsLocation;
+	int currentNewsIndex;
+	
 public:
     // Constructor
     RedSpace();
@@ -75,6 +79,12 @@ public:
 	void spawnMissle(D3DXVECTOR2 location, D3DXVECTOR2 velocity, COLOR_ARGB color);
 	void spawnSmokeParticle(D3DXVECTOR2 location);
 	void spawnShot(D3DXVECTOR2 location, D3DXVECTOR2 velocity);
+
+	void updateNews();
+
+
+
+
 };
 
 #endif

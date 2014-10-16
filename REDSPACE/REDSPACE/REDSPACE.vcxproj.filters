@@ -75,6 +75,9 @@
     <ClCompile Include="Shot.cpp">
       <Filter>Source Files\GameFiles</Filter>
     </ClCompile>
+    <ClCompile Include="constants.cpp">
+      <Filter>Source Files\Background</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h">

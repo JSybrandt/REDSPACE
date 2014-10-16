@@ -89,6 +89,7 @@
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="audio.cpp" />
+    <ClCompile Include="constants.cpp" />
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="graphics.cpp" />

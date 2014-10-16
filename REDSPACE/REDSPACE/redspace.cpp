@@ -9,6 +9,7 @@
 
 class PlayerPlanet;
 
+
 //=============================================================================
 // Constructor
 //=============================================================================
@@ -25,6 +26,8 @@ RedSpace::RedSpace()
 	numActiveMissles = 0;
 	numActiveParticles = 0;
 	numActiveShot = 0;
+	NewsLocation = GAME_WIDTH;
+	currentNewsIndex = rand()%NUM_NEWS_ITEMS;
 }
 
 //=============================================================================
@@ -42,6 +45,8 @@ RedSpace::~RedSpace()
 void RedSpace::initialize(HWND hwnd)
 {
 	Game::initialize(hwnd); // throws GameError
+
+	srand(time(0));
 
 	//	Explosion texture
 	if (!explosionTex.initialize(graphics,EXP_IMAGE))
@@ -153,14 +158,17 @@ void RedSpace::initialize(HWND hwnd)
 		shots[i].initialize(this,0,0,0,&shotTex);
 	}
 	
-	if(!earthPopText.initialize(graphics,50,true,false,"Copperplate Gothic")) 
+	if(!earthText.initialize(graphics,50,true,false,"Copperplate Gothic")) 
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing Constantia Font"));
-	if(!marsPopText.initialize(graphics,50,true,false,"Copperplate Gothic"))
+	if(!marsText.initialize(graphics,50,true,false,"Copperplate Gothic"))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing Constantia Font"));
+	if(!NewsText.initialize(graphics,25,false,false,"Courier New"))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing news Font"));
 
-	earthPopText.setFontColor(graphicsNS::BLUE);
-	marsPopText.setFontColor(graphicsNS::RED);
 
+	earthText.setFontColor(graphicsNS::BLUE);
+	marsText.setFontColor(graphicsNS::RED);
+	NewsText.setFontColor(graphicsNS::WHITE);
 	audio->playCue(SC_BACKGROUND);
 
 	return;
@@ -224,6 +232,7 @@ void RedSpace::update()
 	else
 		marsBar.setColorFilter(graphicsNS::RED);
 
+	updateNews();
 }
 
 //=============================================================================
@@ -286,33 +295,44 @@ void RedSpace::render()
 {
 	graphics->spriteBegin();                // begin drawing sprites
 
+	if(earth.getPopulation()>0 && mars.getPopulation()==0)
+	{
+		earthText.print("TERRAN VICTORY",GAME_WIDTH/6,GAME_HEIGHT/2);
+	}
+	else if(earth.getPopulation()==0 && mars.getPopulation()>=0)
+	{
+		marsText.print("MARTIAN VICTORY",GAME_WIDTH/6,GAME_HEIGHT/2);
+	}
+	else
+	{
+		for(int i = 0; i < PARTICLEMAX; i++) {
+				particles[i].draw();
+		}
+		for(int i = 0; i < SHOTMAX; i++) {
+			if(shots[i].getActive())shots[i].draw();
+		}
+		for(int i = 0; i < MISSILEMAX; i++) {
+				mc[i].draw();
+		}
+		//ship.draw();                            // add the spaceship to the scene
 
+		sun.draw();
+		mars.draw();// add the sun to the scene
+		earth.draw();
 
-	//background.draw();                          // add the orion nebula to the scene
+		NewsText.print(NEWS[currentNewsIndex],NewsLocation,0);
+
+		marsBar.draw(marsBar.getColorFilter());
+		earthBar.draw(earthBar.getColorFilter());
+
+	}
+
+		earthText.print(std::to_string(earth.getPopulation()),GAME_WIDTH/6,GAME_HEIGHT*7/8);
+		marsText.print(std::to_string(mars.getPopulation()),GAME_WIDTH*4/6,GAME_HEIGHT*7/8);
+		
+
+		graphics->spriteEnd();                  // end drawing sprites
 	
-	
-	for(int i = 0; i < PARTICLEMAX; i++) {
-			particles[i].draw();
-	}
-	for(int i = 0; i < SHOTMAX; i++) {
-		if(shots[i].getActive())shots[i].draw();
-	}
-	for(int i = 0; i < MISSILEMAX; i++) {
-			mc[i].draw();
-	}
-	//ship.draw();                            // add the spaceship to the scene
-
-	sun.draw();
-	mars.draw();// add the sun to the scene
-	earth.draw();
-
-	earthPopText.print(std::to_string(earth.getPopulation()),GAME_WIDTH/6,GAME_HEIGHT*7/8);
-	marsPopText.print(std::to_string(mars.getPopulation()),GAME_WIDTH*4/6,GAME_HEIGHT*7/8);
-
-	marsBar.draw(marsBar.getColorFilter());
-	earthBar.draw(earthBar.getColorFilter());
-
-	graphics->spriteEnd();                  // end drawing sprites
 
 }
 
@@ -394,3 +414,15 @@ void RedSpace::spawnShot(D3DXVECTOR2 location, D3DXVECTOR2 velocity)
 		}
 }
 
+
+void RedSpace::updateNews()
+{
+	NewsLocation -= SCROLL_SPEED * frameTime;
+	if(NewsLocation < -int(GAME_WIDTH))
+	{
+		int old = currentNewsIndex;
+		while(old==currentNewsIndex)
+			currentNewsIndex = rand()%NUM_NEWS_ITEMS;
+		NewsLocation = GAME_WIDTH;
+	}
+}

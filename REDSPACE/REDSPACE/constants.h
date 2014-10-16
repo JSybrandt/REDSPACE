@@ -5,7 +5,6 @@
 #ifndef _CONSTANTS_H            // Prevent multiple definitions if this 
 #define _CONSTANTS_H            // file is included in more than one place
 #define WIN32_LEAN_AND_MEAN
-
 #include <windows.h>
 
 //-----------------------------------------------
@@ -89,6 +88,8 @@ const UCHAR ESC_KEY      = VK_ESCAPE;   // escape key
 const UCHAR ALT_KEY      = VK_MENU;     // Alt key
 const UCHAR ENTER_KEY    = VK_RETURN;   // Enter key
 
-
+extern const char  *NEWS[];
+const int NUM_NEWS_ITEMS = 31;
+const float SCROLL_SPEED = 100;
 
 #endif

@@ -46,6 +46,8 @@ LRESULT Game::messageHandler( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam 
                 return 0;
             case WM_KEYUP: case WM_SYSKEYUP:        // key up
                 input->keyUp(wParam);
+				if(wParam == VK_ESCAPE)
+					PostQuitMessage(0); 
                 return 0;
             case WM_CHAR:                           // character entered
                 input->keyIn(wParam);
