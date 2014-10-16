@@ -62,7 +62,9 @@ private:
 	TextDX NewsText;
 	float NewsLocation;
 	int currentNewsIndex;
-	
+	RECT earthPopRect;
+	RECT marsPopRect;
+
 public:
     // Constructor
     RedSpace();
@@ -85,9 +87,7 @@ public:
 
 	void updateNews();
 
-	string popWithLeadingZeros(long long int);
-
-
+	bool gameRunning;
 };
 
 #endif

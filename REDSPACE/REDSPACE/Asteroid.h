@@ -4,6 +4,8 @@
 
 class Asteroid: public Planet
 {
+private:
+	float dir;
 public:
 	Asteroid();
 	Asteroid(float x, float y, float rad, float mass, bool active);

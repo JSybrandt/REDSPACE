@@ -28,6 +28,18 @@ RedSpace::RedSpace()
 	numActiveShot = 0;
 	NewsLocation = GAME_WIDTH;
 	currentNewsIndex = rand()%NUM_NEWS_ITEMS;
+
+	earthPopRect.left = GAME_WIDTH/6;
+	earthPopRect.right = GAME_WIDTH/6 + 250;
+	earthPopRect.top = GAME_HEIGHT*7/8;
+	earthPopRect.bottom = GAME_HEIGHT*7/8 + 50;
+
+	marsPopRect.left = GAME_WIDTH*4/6;
+	marsPopRect.right = GAME_WIDTH*4/6 + 250;
+	marsPopRect.top = GAME_HEIGHT*7/8;
+	marsPopRect.bottom = GAME_HEIGHT*7/8 + 50;
+
+	gameRunning = true;
 }
 
 //=============================================================================
@@ -194,7 +206,7 @@ void RedSpace::initialize(HWND hwnd)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing Constantia Font"));
 	if(!marsText.initialize(graphics,50,true,false,"Copperplate Gothic"))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing Constantia Font"));
-	if(!NewsText.initialize(graphics,25,false,false,"Courier New"))
+	if(!NewsText.initialize(graphics,25,true,true,"Courier New"))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing news Font"));
 
 
@@ -211,69 +223,72 @@ void RedSpace::initialize(HWND hwnd)
 //=============================================================================
 void RedSpace::update()
 {
-	mars.gravityForce(&sun, frameTime);
-	earth.gravityForce(&sun, frameTime);
+	if(gameRunning)
+	{
+		mars.gravityForce(&sun, frameTime);
+		earth.gravityForce(&sun, frameTime);
 
 
-	for(int i = 0; i < MISSILEMAX; i++) {
-		if(mc[i].getActive()) {
-			mc[i].gravityForce(&sun, frameTime);
-			mc[i].gravityForce(&mars, frameTime);
-			mc[i].gravityForce(&earth, frameTime);
-			mc[i].gravityForce(&mc[i].explosion, frameTime);
-			mc[i].update(frameTime);
-		}
-		if(mc[i].explosionOn) {
-			//mars.gravityForce(&mc[i].explosion, frameTime); //TESTING ONLY
-			//earth.gravityForce(&mc[i].explosion, frameTime); //TESTING ONLY
-			mc[i].explosion.update(frameTime);
-			if(mc[i].explosion.getAnimationComplete()) {   // if explosion animation complete
-				mc[i].explosionOn = false;                // turn off explosion
-				mc[i].explosion.setAnimationComplete(false);
-				mc[i].explosion.setCurrentFrame(EXP_START);
+		for(int i = 0; i < MISSILEMAX; i++) {
+			if(mc[i].getActive()) {
+				mc[i].gravityForce(&sun, frameTime);
+				mc[i].gravityForce(&mars, frameTime);
+				mc[i].gravityForce(&earth, frameTime);
+				mc[i].gravityForce(&mc[i].explosion, frameTime);
+				mc[i].update(frameTime);
 			}
-		}
-
-		//mc[i]->setVelocity(collison);
-	}
-
-	for(int i = 0 ; i < PARTICLEMAX; i++)
-	{
-		particles[i].update(frameTime);
-	}
-	for(int i = 0 ; i < SHOTMAX; i++)
-	{
-		shots[i].update(frameTime);
-	}
-	for(int i = 0 ; i < ASTMAX; i++)
-	{
-		for(int j = 0; j < MISSILEMAX; j++) {
-			if(mc[j].explosionOn) {
-				astField[i].gravityForce(&mc[j].explosion, frameTime);
+			if(mc[i].explosionOn) {
+				//mars.gravityForce(&mc[i].explosion, frameTime); //TESTING ONLY
+				//earth.gravityForce(&mc[i].explosion, frameTime); //TESTING ONLY
+				mc[i].explosion.update(frameTime);
+				if(mc[i].explosion.getAnimationComplete()) {   // if explosion animation complete
+					mc[i].explosionOn = false;                // turn off explosion
+					mc[i].explosion.setAnimationComplete(false);
+					mc[i].explosion.setCurrentFrame(EXP_START);
+				}
 			}
+
+			//mc[i]->setVelocity(collison);
 		}
-		astField[i].update(frameTime);
-		astField[i].gravityForce(&sun, frameTime);
+
+		for(int i = 0 ; i < PARTICLEMAX; i++)
+		{
+			particles[i].update(frameTime);
+		}
+		for(int i = 0 ; i < SHOTMAX; i++)
+		{
+			shots[i].update(frameTime);
+		}
+		for(int i = 0 ; i < ASTMAX; i++)
+		{
+			for(int j = 0; j < MISSILEMAX; j++) {
+				if(mc[j].explosionOn) {
+					astField[i].gravityForce(&mc[j].explosion, frameTime);
+				}
+			}
+			astField[i].update(frameTime);
+			astField[i].gravityForce(&sun, frameTime);
+		}
+
+		sun.update(frameTime);
+		mars.update(frameTime);
+		earth.update(frameTime);
+
+
+		marsBar.setY((playerPlanetNS::MAX_RESOURCE-mars.getResource())/playerPlanetNS::MAX_RESOURCE*GAME_HEIGHT);
+		earthBar.setY((playerPlanetNS::MAX_RESOURCE-earth.getResource())/playerPlanetNS::MAX_RESOURCE*GAME_HEIGHT);
+
+		if(earth.getResource() < playerPlanetNS::NUKE_COST)
+			earthBar.setColorFilter(graphicsNS::BLUE & graphicsNS::ALPHA50 );
+		else
+			earthBar.setColorFilter(graphicsNS::BLUE);
+
+		if(mars.getResource() < playerPlanetNS::NUKE_COST)
+			marsBar.setColorFilter(graphicsNS::RED  & graphicsNS::ALPHA50 );
+		else
+			marsBar.setColorFilter(graphicsNS::RED);
+	
 	}
-
-	sun.update(frameTime);
-	mars.update(frameTime);
-	earth.update(frameTime);
-
-
-	marsBar.setY((playerPlanetNS::MAX_RESOURCE-mars.getResource())/playerPlanetNS::MAX_RESOURCE*GAME_HEIGHT);
-	earthBar.setY((playerPlanetNS::MAX_RESOURCE-earth.getResource())/playerPlanetNS::MAX_RESOURCE*GAME_HEIGHT);
-
-	if(earth.getResource() < playerPlanetNS::NUKE_COST)
-		earthBar.setColorFilter(graphicsNS::BLUE & graphicsNS::ALPHA50 );
-	else
-		earthBar.setColorFilter(graphicsNS::BLUE);
-
-	if(mars.getResource() < playerPlanetNS::NUKE_COST)
-		marsBar.setColorFilter(graphicsNS::RED  & graphicsNS::ALPHA50 );
-	else
-		marsBar.setColorFilter(graphicsNS::RED);
-
 	updateNews();
 }
 
@@ -288,76 +303,79 @@ void RedSpace::ai()
 //=============================================================================
 void RedSpace::collisions()
 {
-	VECTOR2 collison;
-	for(int i = 0; i < MISSILEMAX; i++) {
-
-		//if hit by a shot
-		bool hitShot = false;
-		for(int k = 0; k < SHOTMAX; k++){if(mc[i].collidesWith(shots[k],collison)){hitShot=true; shots[k].setActive(false);break;}}
-
-		bool hitAst = false;
-		//if hit asteroid
-		for(int k = 0; k < ASTMAX; k++){
-			if(mc[i].collidesWith(astField[k],collison)){
-				hitAst = true;
-				break;
-			}
-		}
-
-		bool hitEarth = mc[i].collidesWith(earth,collison);
-		bool hitMars = mc[i].collidesWith(mars,collison);
-
-		if(mc[i].getActive() && (mc[i].collidesWith(sun,collison) || hitEarth || hitMars || hitShot||hitAst)) {
-
-			mc[i].setActive(false);
-			numActiveMissles--;
-
-			int peopleDead = rand()%100000000+783000000;
-			if(hitEarth)earth.killPeople(peopleDead);
-			if(hitMars)mars.killPeople(peopleDead);
-
-			audio->playCue(SC_HIT);
-
-
-		}
-
-	}
-
-	for(int i = 0 ; i < SHOTMAX; i++)
+	if(gameRunning)
 	{
 		VECTOR2 collison;
-		bool hitEarth = shots[i].collidesWith(earth,collison);
-		bool hitMars = shots[i].collidesWith(mars,collison);
-		if(shots[i].collidesWith(sun,collison)||hitEarth||hitMars)
-		{
-			shots[i].setActive(false);
-			int peopleDead = rand()%100000+1000000;
-			if(hitEarth)earth.killPeople(peopleDead);
-			if(hitMars)
-				mars.killPeople(peopleDead);
-		}
-	}
+		for(int i = 0; i < MISSILEMAX; i++) {
 
-	for(int i = 0 ; i < ASTMAX; i++) { //Asteroid field collision with planets
-		VECTOR2 collison;
-		//if hit by a shot
-		bool hitShot = false;
-		for(int k = 0; k < SHOTMAX; k++){if(astField[i].collidesWith(shots[k],collison)){hitShot=true; shots[k].setActive(false);}}
-		bool hitEarth = astField[i].collidesWith(earth,collison);
-		bool hitMars = astField[i].collidesWith(mars,collison);
-		if(astField[i].collidesWith(sun,collison)||hitEarth||hitMars||hitShot)
-		{
-			astField[i].setActive(false);
-			if(hitEarth){
-				earth.killPeople(rand()%100000+5000000);
-				audio->playCue(SC_CRASH);
+			//if hit by a shot
+			bool hitShot = false;
+			for(int k = 0; k < SHOTMAX; k++){if(mc[i].collidesWith(shots[k],collison)){hitShot=true; shots[k].setActive(false);break;}}
+
+			bool hitAst = false;
+			//if hit asteroid
+			for(int k = 0; k < ASTMAX; k++){
+				if(mc[i].collidesWith(astField[k],collison)){
+					hitAst = true;
+					break;
+				}
 			}
-			if(hitMars){
-				mars.killPeople(rand()%1000000+5000000);
-				audio->playCue(SC_CRASH);
+
+			bool hitEarth = mc[i].collidesWith(earth,collison);
+			bool hitMars = mc[i].collidesWith(mars,collison);
+
+			if(mc[i].getActive() && (mc[i].collidesWith(sun,collison) || hitEarth || hitMars || hitShot||hitAst)) {
+
+				mc[i].setActive(false);
+				numActiveMissles--;
+
+				int peopleDead = rand()%100000000+783000000;
+				if(hitEarth)earth.killPeople(peopleDead);
+				if(hitMars)mars.killPeople(peopleDead);
+
+				audio->playCue(SC_HIT);
+
+
+			}
+
+		}
+
+		for(int i = 0 ; i < SHOTMAX; i++)
+		{
+			VECTOR2 collison;
+			bool hitEarth = shots[i].collidesWith(earth,collison);
+			bool hitMars = shots[i].collidesWith(mars,collison);
+			if(shots[i].collidesWith(sun,collison)||hitEarth||hitMars)
+			{
+				shots[i].setActive(false);
+				int peopleDead = rand()%200000+5000000;
+				if(hitEarth)earth.killPeople(peopleDead);
+				if(hitMars)
+					mars.killPeople(peopleDead);
 			}
 		}
 
+		for(int i = 0 ; i < ASTMAX; i++) { //Asteroid field collision with planets
+			VECTOR2 collison;
+			//if hit by a shot
+			bool hitShot = false;
+			for(int k = 0; k < SHOTMAX; k++){if(astField[i].collidesWith(shots[k],collison)){hitShot=true; shots[k].setActive(false);}}
+			bool hitEarth = astField[i].collidesWith(earth,collison);
+			bool hitMars = astField[i].collidesWith(mars,collison);
+			if(astField[i].collidesWith(sun,collison)||hitEarth||hitMars||hitShot)
+			{
+				astField[i].setActive(false);
+				if(hitEarth){
+					earth.killPeople(rand()%400000+5000000);
+					audio->playCue(SC_CRASH);
+				}
+				if(hitMars){
+					mars.killPeople(rand()%400000+5000000);
+					audio->playCue(SC_CRASH);
+				}
+			}
+
+		}
 	}
 
 
@@ -369,6 +387,8 @@ void RedSpace::collisions()
 void RedSpace::render()
 {
 	graphics->spriteBegin();                // begin drawing sprites
+
+	NewsText.print(NEWS[currentNewsIndex],NewsLocation,0);
 
 	if(earth.getPopulation()>0 && mars.getPopulation()==0)
 	{
@@ -397,16 +417,15 @@ void RedSpace::render()
 		sun.draw();
 		mars.draw();// add the sun to the scene
 		earth.draw();
-
-		NewsText.print(NEWS[currentNewsIndex],NewsLocation,0);
-
+		
 		marsBar.draw(marsBar.getColorFilter());
 		earthBar.draw(earthBar.getColorFilter());
 
 	}
 
-	earthText.print(popWithLeadingZeros(earth.getPopulation()),GAME_WIDTH/6,GAME_HEIGHT*7/8);
-	marsText.print(popWithLeadingZeros(mars.getPopulation()),GAME_WIDTH*4/6,GAME_HEIGHT*7/8);
+	
+	earthText.print(std::to_string(earth.getPopulation()),earthPopRect,DT_RIGHT);
+	marsText.print(std::to_string(mars.getPopulation()),marsPopRect,DT_RIGHT);
 
 
 	graphics->spriteEnd();                  // end drawing sprites
@@ -503,11 +522,4 @@ void RedSpace::updateNews()
 			currentNewsIndex = rand()%NUM_NEWS_ITEMS;
 		NewsLocation = GAME_WIDTH;
 	}
-}
-
-string RedSpace::popWithLeadingZeros(long long int in)
-{
-	string current = std::to_string(in);
-	while(current.length() < 11) current = "0"+current;
-	return current;
 }

@@ -76,6 +76,8 @@ void PlayerPlanet::update(float frameTime)
 
 	currentResource += playerPlanetNS::RECHARGE_RATE * frameTime;
 	currentResource = min(playerPlanetNS::MAX_RESOURCE,currentResource);
+
+	if(population <= 0) game->gameRunning = false;
 }
 
 void PlayerPlanet::draw()

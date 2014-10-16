@@ -1,4 +1,4 @@
-﻿Build started 10/16/2014 4:49:27 PM.
+﻿Build started 10/16/2014 6:31:57 PM.
      1>Project "C:\Users\Nalta\Desktop\REDSPACE\REDSPACE\REDSPACE\REDSPACE\REDSPACE.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\Include" /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt redspace.cpp
@@ -8,16 +8,16 @@
      1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\playerplanet.h(15): warning C4244: 'initializing' : conversion from 'const double' to 'const float', possible loss of data
      1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\playerplanet.h(20): warning C4244: 'initializing' : conversion from 'const double' to 'const float', possible loss of data
      1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\redspace.h(20): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-     1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\redspace.cpp(49): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
-     1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\redspace.cpp(86): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
-     1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\redspace.cpp(127): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\redspace.cpp(128): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\redspace.cpp(140): warning C4244: 'argument' : conversion from 'int' to 'FLOAT', possible loss of data
-     1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\redspace.cpp(152): warning C4305: 'initializing' : truncation from 'double' to 'const float'
-     1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\redspace.cpp(157): warning C4244: 'argument' : conversion from 'double' to 'FLOAT', possible loss of data
-     1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\redspace.cpp(159): warning C4244: 'initializing' : conversion from 'const double' to 'float', possible loss of data
-     1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\redspace.cpp(169): warning C4244: 'initializing' : conversion from 'const double' to 'float', possible loss of data
-     1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\redspace.cpp(401): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\redspace.cpp(61): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
+     1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\redspace.cpp(98): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
+     1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\redspace.cpp(139): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\redspace.cpp(140): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\redspace.cpp(152): warning C4244: 'argument' : conversion from 'int' to 'FLOAT', possible loss of data
+     1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\redspace.cpp(164): warning C4305: 'initializing' : truncation from 'double' to 'const float'
+     1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\redspace.cpp(169): warning C4244: 'argument' : conversion from 'double' to 'FLOAT', possible loss of data
+     1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\redspace.cpp(171): warning C4244: 'initializing' : conversion from 'const double' to 'float', possible loss of data
+     1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\redspace.cpp(181): warning C4244: 'initializing' : conversion from 'const double' to 'float', possible loss of data
+     1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\redspace.cpp(391): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Nalta\Desktop\REDSPACE\REDSPACE\REDSPACE\REDSPACE\Debug\REDSPACE.exe" /NOLOGO /LIBPATH:"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\Lib\x86" d3d9.lib d3dx9.lib winmm.lib xinput.lib winmm.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Nalta\Desktop\REDSPACE\REDSPACE\REDSPACE\REDSPACE\Debug\REDSPACE.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Nalta\Desktop\REDSPACE\REDSPACE\REDSPACE\REDSPACE\Debug\REDSPACE.lib" /MACHINE:X86 /SAFESEH Debug\Actor.obj
          Debug\Asteroid.obj
@@ -42,4 +42,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.98
+Time Elapsed 00:00:01.95

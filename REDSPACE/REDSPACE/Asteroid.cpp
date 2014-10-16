@@ -2,6 +2,7 @@
 
 Asteroid::Asteroid() {
 	resistance = 1;
+	dir = 0;
 }
 
 Asteroid::Asteroid(float x, float y, float rad, float mass, bool active = true){
@@ -23,12 +24,17 @@ Asteroid::Asteroid(float x, float y, float rad, float mass, bool active = true){
 	collisionType = CIRCLE;
 	health = 100;
 	gravity = 6.67428e-11f;
-
+	resistance = 1;
+	dir = 0;
 }
 
 void Asteroid::update(float frameTime) {
 	if(active)
+	{
+		dir += ((rand()%100)/100.0)*3*frameTime;
+		setRadians(dir);
 		Planet::update(frameTime);
+	}
 }
 
 void Asteroid::draw() {

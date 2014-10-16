@@ -16,8 +16,8 @@ Global Settings
     Header File = audioProject.h;
     Exclude Category Names = 0;
     Exclude Variable Names = 0;
-    Last Modified Low = 488226600;
-    Last Modified High = 30402939;
+    Last Modified Low = 3357959619;
+    Last Modified High = 30402958;
 
     Category
     {
@@ -227,10 +227,12 @@ Wave Bank
     Compression Preset Name = <none>;
     Xbox Bank Last Modified Low = 0;
     Xbox Bank Last Modified High = 0;
-    PC Bank Last Modified Low = 488316605;
-    PC Bank Last Modified High = 30402939;
-    Bank Last Revised Low = 2599218980;
-    Bank Last Revised High = 30402938;
+    PC Bank Last Modified Low = 2429776530;
+    PC Bank Last Modified High = 30402958;
+    Header Last Modified Low = 0;
+    Header Last Modified High = 0;
+    Bank Last Revised Low = 2359922535;
+    Bank Last Revised High = 30402958;
 
     Wave
     {
@@ -351,8 +353,8 @@ Wave Bank
     {
         Name = crash;
         File = crash.wav;
-        Build Settings Last Modified Low = 2478072051;
-        Build Settings Last Modified High = 30402938;
+        Build Settings Last Modified Low = 2344491652;
+        Build Settings Last Modified High = 30402958;
 
         Cache
         {
@@ -365,8 +367,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 388770912;
-            Last Modified High = 30402939;
+            Last Modified Low = 2035283966;
+            Last Modified High = 30402958;
         }
     }
 }
@@ -378,8 +380,8 @@ Sound Bank
     Windows File = Win\Sound Bank.xsb;
     Xbox Bank Path Edited = 0;
     Windows Bank Path Edited = 0;
-    Bank Last Modified Low = 489356665;
-    Bank Last Modified High = 30402939;
+    Bank Last Modified Low = 1570565748;
+    Bank Last Modified High = 30402959;
     Header Last Modified High = 0;
     Header Last Modified Low = 0;
 
@@ -559,6 +561,14 @@ Sound Bank
                     Random Offset = 0;
                 }
 
+                Volume Variation
+                {
+                    Min = -300;
+                    Max = 300;
+                    Volume = 0;
+                    New Variation On Loop = 0;
+                }
+
                 Wave Entry
                 {
                     Bank Name = Wave Bank;
@@ -606,6 +616,14 @@ Sound Bank
                     Random Offset = 0;
                 }
 
+                Volume Variation
+                {
+                    Min = -300;
+                    Max = 300;
+                    Volume = 0;
+                    New Variation On Loop = 0;
+                }
+
                 Wave Entry
                 {
                     Bank Name = Wave Bank;
@@ -651,6 +669,22 @@ Sound Bank
                     Relative = 0;
                     Random Recurrence = 0;
                     Random Offset = 0;
+                }
+
+                Pitch Variation
+                {
+                    Min = -100;
+                    Max = 100;
+                    Operator = 0;
+                    New Variation On Loop = 0;
+                }
+
+                Volume Variation
+                {
+                    Min = -3030;
+                    Max = -670;
+                    Volume = 0;
+                    New Variation On Loop = 0;
                 }
 
                 Wave Entry
@@ -782,7 +816,7 @@ Sound Bank
             Name = crash;
             Index = 5;
             Weight Min = 0;
-            Weight Max = 255;
+            Weight Max = 169;
         }
     }
 }

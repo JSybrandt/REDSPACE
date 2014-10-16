@@ -1,21 +1,21 @@
 #include "constants.h"
 
 const char * NEWS[] = {
-	"NASA now almost positive Mars is rockey.",
+	"NASA now almost positive Mars is rocky.",
 	"Hubble space telescope finds men from Venus, women from Mars.",
-	"Niel DeGrasse Tyson lets slip that he's been to Mars.",
+	"Neil DeGrasse Tyson lets slip that he's been to Mars.",
 	"NASA designers release flirty new space skirt.",
 	"Conspiracy theorists convinced Terran government is behind NASA.",
 	"New space camp program allows kids to simulate frustration over lack of funding.",
 	"China launches first willing manned mission into space.",
-	"NASA inadvertantly alaunches unmanned space shuttle.",
-	"NASA mission control suprises space shuttle discovery crew with two-second countdown.",
+	"NASA inadvertently launches unmanned space shuttle.",
+	"NASA mission control surprises space shuttle discovery crew with two-second countdown.",
 	"NASA continues search for planet capable fo supporting NASA.",
-	"Space shuttle endevor asks, 'Whats in it for me?'",
+	"Space shuttle endeavor asks, 'What’s in it for me?'",
 	"Hubble space telescope destroyed by Bill Gate's space fortress.",
 	"Coke sponsored rover finds evidence of Dasani on Mars.",
 	"Bush still working on manned mission to Mars, quietly in spare time.",
-	"Taylor Swift now in long distance relationship with curriosity rover.",
+	"Taylor Swift now in long distance relationship with curiosity rover.",
 	"NASA calls it a mission as curiosity rover fills up whole two-gigabyte memory card.",
 	"Pope tweets picture of self with God.",
 	"Bush vows to discover and legalize aliens on American, Martian soil.",
@@ -29,7 +29,7 @@ const char * NEWS[] = {
 	"Earth wonders where moon went.",
 	"Mars thanks Earth for eradicating Ebola.",
 	"Roaches of Mars, please stay within designated reserves.",
-	"Martians realease statemnt to the Terran Alliance, 'We're CRIMSON, quit calling us red.'",
-	"Death toll today on the Red Plannet remains a consistent zero. Unfortunantly, billions of redshirt casualties have been reported.",
+	"Martians release statement to the Terran Alliance, 'We're CRIMSON, quit calling us red.'",
+	"Death toll today on the Red Planet remains a consistent zero. Unfortunately, billions of redshirt casualties have been reported.",
 	"Man licks uranium, gains 'SUPER TASTE.'"
 };
