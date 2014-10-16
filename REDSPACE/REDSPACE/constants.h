@@ -36,6 +36,7 @@ const char EXP_IMAGE[] = "pictures\\explosion.png"; //Public Domain
 const char CURSOR_IMAGE[] = "pictures\\cursor.png";
 const char SMOKE_IMAGE[] = "pictures\\smoke.png";
 const char SHOT_IMAGE[] = "pictures\\shot.png";
+const char BAR_IMAGE[] = "pictures\\bar.png";
 
 //Sound Locations
 const char WAVE_BANK[] = "audio\\Win\\Wave Bank.xwb";
@@ -50,8 +51,8 @@ const char SC_SHOT1[] = "shot1";
 const char SC_SHOT2[] = "shot2";
 
 // window
-const char CLASS_NAME[] = "Spacewar";
-const char GAME_TITLE[] = "Spacewar";
+const char CLASS_NAME[] = "Red Space";
+const char GAME_TITLE[] = "Red Space";
 const bool FULLSCREEN = false;              // windowed or fullscreen DO NOT RUN FULLSCREEN IN DEBUG MODE
 const UINT GAME_WIDTH =  1280;               // width of game in pixels
 const UINT GAME_HEIGHT = 800;               // height of game in pixels

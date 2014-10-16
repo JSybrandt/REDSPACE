@@ -17,8 +17,6 @@
 #include <string>
 
 
-
-
 //=============================================================================
 // Create game class
 //=============================================================================
@@ -35,6 +33,9 @@ private:
 	TextureManager cursorTex;
 	TextureManager smokeTex;
 	TextureManager shotTex;
+	TextureManager barTex;
+	Image marsBar;
+	Image earthBar;
 	Planet  sun;         
 	PlayerPlanet mars;
 	PlayerPlanet earth;
@@ -71,7 +72,7 @@ public:
     void releaseAll();
     void resetAll();
 
-	void spawnMissle(D3DXVECTOR2 location, D3DXVECTOR2 velocity);
+	void spawnMissle(D3DXVECTOR2 location, D3DXVECTOR2 velocity, COLOR_ARGB color);
 	void spawnSmokeParticle(D3DXVECTOR2 location);
 	void spawnShot(D3DXVECTOR2 location, D3DXVECTOR2 velocity);
 };

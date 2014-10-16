@@ -17,8 +17,8 @@ RedSpace::RedSpace()
 	P1Controls = Controls('W','S','A','D');
 	P2Controls = Controls(VK_UP,VK_DOWN,VK_LEFT,VK_RIGHT);
 	sun = Planet(GAME_WIDTH/2 - 128/2.0, GAME_HEIGHT/2 - 120/2.0, 70/2.0,5.0e14f,true);
-	earth = PlayerPlanet(GAME_WIDTH/2 - 128/2.0, GAME_HEIGHT/2 - 120/2.0, 100, 5.0e14f,this,P1Controls);
-	mars = PlayerPlanet(GAME_WIDTH/2 - 128/2.0, GAME_HEIGHT/2 - 120/2.0, 100, 5.0e14f,this,P2Controls);
+	earth = PlayerPlanet(GAME_WIDTH/3 - 128/2.0, GAME_HEIGHT/2 - 120/2.0, 100, 5.0e14f,this,P1Controls);
+	mars = PlayerPlanet(GAME_WIDTH/3 - 128/2.0, GAME_HEIGHT/2 - 120/2.0, 100, 5.0e14f,this,P2Controls);
 	misStorage = 0;
 	partStorage = 0;
 	shotStorage = 0;
@@ -43,9 +43,6 @@ void RedSpace::initialize(HWND hwnd)
 {
 	Game::initialize(hwnd); // throws GameError
 
-	if (!backgroundTex.initialize(graphics,BACKGROUND_IMAGE))
-		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing nebula texture"));
-
 	//	Explosion texture
 	if (!explosionTex.initialize(graphics,EXP_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing nebula texture"));
@@ -69,6 +66,18 @@ void RedSpace::initialize(HWND hwnd)
 	if(!shotTex.initialize(graphics,SHOT_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing shot texture"));
 
+	if(!barTex.initialize(graphics,BAR_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing bar texture"));
+
+	if (!marsBar.initialize(graphics,0,0,0,&barTex))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing mars bar"));
+
+	if (!earthBar.initialize(graphics,0,0,0,&barTex))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing earth bar"));
+
+	marsBar.setX(GAME_WIDTH-marsBar.getWidth());
+	earthBar.setX(0);
+
 	// sun
 	if (!sun.initialize(this,0,0,0,&planetTexture))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing sun"));
@@ -77,8 +86,12 @@ void RedSpace::initialize(HWND hwnd)
 	if (!earth.initialize(this,0,0,0,&earthTex))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing earth"));
 
+
 	mars.setCursor(&cursorTex);
 	earth.setCursor(&cursorTex);
+
+	mars.setColorFilter(graphicsNS::RED);
+	earth.setColorFilter(graphicsNS::BLUE);
 
 	sun.setX(GAME_WIDTH*0.5f  - sun.getWidth()*0.5f);
 	sun.setY(GAME_HEIGHT*0.5f - sun.getHeight()*0.5f);
@@ -86,18 +99,18 @@ void RedSpace::initialize(HWND hwnd)
 	sun.setGravity(2.17428e-21f);
 	//sun.setResistance(.0001);
 
-	mars.setX(GAME_WIDTH*0.125f  - sun.getWidth()*0.125f);
-	mars.setY(GAME_HEIGHT*0.5f - sun.getHeight()*0.5f);
+	mars.setCenterX(GAME_WIDTH*0.2f);
+	mars.setCenterY(GAME_HEIGHT*0.5f);
 
 	mars.setMass(9e13f);
-	mars.setVelocity(VECTOR2(0,120)); //@ 1/4 distance, y = 130.
+	mars.setVelocity(VECTOR2(0,155)); //@ 1/4 distance, y = 130.
 	mars.setGravity(2.17428e-22f); //-16 for 000001
 
-	earth.setX(GAME_WIDTH*0.875f  - sun.getWidth()*0.875f);
-	earth.setY(GAME_HEIGHT*0.5f - sun.getHeight()*0.5f);
+	earth.setCenterX(GAME_WIDTH*0.7f);
+	earth.setCenterY(GAME_HEIGHT*0.5f );
 
 	earth.setMass(9e13f);
-	earth.setVelocity(VECTOR2(0,-120)); //@ 1/4 distance, y = 130.
+	earth.setVelocity(VECTOR2(0,-190)); //@ 1/4 distance, y = 130.
 	earth.setGravity(2.17428e-22f); //-16 for 000001
 	//mars.setResistance(.000001);
 
@@ -197,6 +210,20 @@ void RedSpace::update()
 	mars.update(frameTime);
 	earth.update(frameTime);
 
+	
+	marsBar.setY((playerPlanetNS::MAX_RESOURCE-mars.getResource())/playerPlanetNS::MAX_RESOURCE*GAME_HEIGHT);
+	earthBar.setY((playerPlanetNS::MAX_RESOURCE-earth.getResource())/playerPlanetNS::MAX_RESOURCE*GAME_HEIGHT);
+
+	if(earth.getResource() < playerPlanetNS::NUKE_COST)
+		earthBar.setColorFilter(graphicsNS::GRAY);
+	else
+		earthBar.setColorFilter(graphicsNS::BLUE);
+
+	if(mars.getResource() < playerPlanetNS::NUKE_COST)
+		marsBar.setColorFilter(graphicsNS::GRAY);
+	else
+		marsBar.setColorFilter(graphicsNS::RED);
+
 }
 
 //=============================================================================
@@ -259,23 +286,31 @@ void RedSpace::render()
 {
 	graphics->spriteBegin();                // begin drawing sprites
 
+
+
 	//background.draw();                          // add the orion nebula to the scene
-	sun.draw();
-	mars.draw();// add the sun to the scene
-	earth.draw();
-	for(int i = 0; i < MISSILEMAX; i++) {
-			mc[i].draw();
-	}
+	
+	
 	for(int i = 0; i < PARTICLEMAX; i++) {
 			particles[i].draw();
 	}
 	for(int i = 0; i < SHOTMAX; i++) {
 		if(shots[i].getActive())shots[i].draw();
 	}
+	for(int i = 0; i < MISSILEMAX; i++) {
+			mc[i].draw();
+	}
 	//ship.draw();                            // add the spaceship to the scene
+
+	sun.draw();
+	mars.draw();// add the sun to the scene
+	earth.draw();
 
 	earthPopText.print(std::to_string(earth.getPopulation()),GAME_WIDTH/6,GAME_HEIGHT*7/8);
 	marsPopText.print(std::to_string(mars.getPopulation()),GAME_WIDTH*4/6,GAME_HEIGHT*7/8);
+
+	marsBar.draw(marsBar.getColorFilter());
+	earthBar.draw(earthBar.getColorFilter());
 
 	graphics->spriteEnd();                  // end drawing sprites
 
@@ -302,7 +337,7 @@ void RedSpace::resetAll()
 }
 
 
-void RedSpace::spawnMissle(D3DXVECTOR2 location, D3DXVECTOR2 velocity)
+void RedSpace::spawnMissle(D3DXVECTOR2 location, D3DXVECTOR2 velocity, COLOR_ARGB color)
 {
 	for(int i = 0; i < MISSILEMAX; i++)
 		{
@@ -314,6 +349,7 @@ void RedSpace::spawnMissle(D3DXVECTOR2 location, D3DXVECTOR2 velocity)
 				mc[misStorage].setCenterY(location.y);
 				mc[misStorage].setVelocity(velocity);
 				mc[misStorage].activate();
+				mc[misStorage].setColorFilter(color);
 				numActiveMissles++;
 				misStorage++;
 				audio->playCue(SC_LAUNCH);

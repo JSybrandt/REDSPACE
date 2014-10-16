@@ -10,8 +10,13 @@ class RedSpace;
 namespace playerPlanetNS
 {
 	const float SHOT_DELAY = 0.075;
-	const long long int STARTING_POP = 5000000000;
-	const float cursorInaccuracy = PI/8;
+	const float NUKE_DELAY = 0.3;
+	const long long int STARTING_POP = 10000000000;
+	const float CURSOR_INACURACY = PI/8;
+	const float MAX_RESOURCE = 100;
+	const float NUKE_COST = 30;
+	const float SHOT_COST = 5;
+	const float RECHARGE_RATE = 20;
 }
 
 class PlayerPlanet : public Planet
@@ -25,6 +30,7 @@ public:
 	void setCursor(TextureManager * c);
 	void killPeople(int dead){population = max(0,population-dead); delPop=displayedPopulation-population;}
 	long long int getPopulation(){return displayedPopulation;}
+	float getResource(){return currentResource;}
 private:
 
 	//aiming location in radians
@@ -39,5 +45,7 @@ private:
 	long long int displayedPopulation;
 	long long int population;
 	long long int delPop;
+	float currentResource;
+	float displayedResource;
 };
 #endif

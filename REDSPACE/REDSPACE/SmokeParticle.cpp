@@ -4,7 +4,7 @@ SmokeParticle::SmokeParticle()
 {
 	currentOpacity = 0;
 	active = false;
-	dissipationRate = 1;
+	dissipationRate = 2;
 }
 
 void SmokeParticle::update(float frametime)
@@ -21,8 +21,13 @@ void SmokeParticle::draw()
 {
 	if(active)
 	{
-		//TODO:FADE
-		Actor::draw();
+		COLOR_ARGB c = graphicsNS::WHITE;
+		if(currentOpacity < .25)
+			c = graphicsNS::ALPHA25;
+		else if(currentOpacity < .50)
+			c = graphicsNS::ALPHA50;
+
+		Actor::draw(c);
 	}
 }
 
@@ -30,6 +35,6 @@ void SmokeParticle::draw()
 void SmokeParticle::set(D3DXVECTOR2 loc)
 {
 	active = true;
-	currentOpacity = 0.5;
+	currentOpacity = 1;
 	setCenterX(loc.x);setCenterY(loc.y);
 }

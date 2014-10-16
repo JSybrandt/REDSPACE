@@ -47,6 +47,7 @@ Missile::Missile(float x, float y, bool active,RedSpace* game) {
 	this->game = game;
 	this->timeSinceLastSmoke = 0;
 	this->age = 0;
+	setColorFilter(graphicsNS::WHITE);
 }
 
 
@@ -99,7 +100,7 @@ void Missile::draw() {
         explosion.draw(spriteData); // draw explosion using current spriteData
 	}
     if(active)
-        Actor::draw();              // draw ship
+        Actor::draw(getColorFilter());              // draw ship
 }
 
 
