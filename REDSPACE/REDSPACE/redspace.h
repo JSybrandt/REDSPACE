@@ -85,7 +85,7 @@ public:
 
 	void updateNews();
 
-
+	string popWithLeadingZeros(long long int);
 
 
 };

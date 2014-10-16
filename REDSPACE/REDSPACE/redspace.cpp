@@ -265,12 +265,12 @@ void RedSpace::update()
 	earthBar.setY((playerPlanetNS::MAX_RESOURCE-earth.getResource())/playerPlanetNS::MAX_RESOURCE*GAME_HEIGHT);
 
 	if(earth.getResource() < playerPlanetNS::NUKE_COST)
-		earthBar.setColorFilter(graphicsNS::GRAY);
+		earthBar.setColorFilter(graphicsNS::BLUE & graphicsNS::ALPHA50 );
 	else
 		earthBar.setColorFilter(graphicsNS::BLUE);
 
 	if(mars.getResource() < playerPlanetNS::NUKE_COST)
-		marsBar.setColorFilter(graphicsNS::GRAY);
+		marsBar.setColorFilter(graphicsNS::RED  & graphicsNS::ALPHA50 );
 	else
 		marsBar.setColorFilter(graphicsNS::RED);
 
@@ -331,7 +331,7 @@ void RedSpace::collisions()
 		if(shots[i].collidesWith(sun,collison)||hitEarth||hitMars)
 		{
 			shots[i].setActive(false);
-			int peopleDead = rand()%100+10;
+			int peopleDead = rand()%100000+1000000;
 			if(hitEarth)earth.killPeople(peopleDead);
 			if(hitMars)
 				mars.killPeople(peopleDead);
@@ -349,11 +349,11 @@ void RedSpace::collisions()
 		{
 			astField[i].setActive(false);
 			if(hitEarth){
-				earth.killPeople(rand()%100000+1000000);
+				earth.killPeople(rand()%100000+5000000);
 				audio->playCue(SC_CRASH);
 			}
 			if(hitMars){
-				mars.killPeople(rand()%1000000+1000000);
+				mars.killPeople(rand()%1000000+5000000);
 				audio->playCue(SC_CRASH);
 			}
 		}
@@ -405,8 +405,8 @@ void RedSpace::render()
 
 	}
 
-	earthText.print(std::to_string(earth.getPopulation()),GAME_WIDTH/6,GAME_HEIGHT*7/8);
-	marsText.print(std::to_string(mars.getPopulation()),GAME_WIDTH*4/6,GAME_HEIGHT*7/8);
+	earthText.print(popWithLeadingZeros(earth.getPopulation()),GAME_WIDTH/6,GAME_HEIGHT*7/8);
+	marsText.print(popWithLeadingZeros(mars.getPopulation()),GAME_WIDTH*4/6,GAME_HEIGHT*7/8);
 
 
 	graphics->spriteEnd();                  // end drawing sprites
@@ -503,4 +503,11 @@ void RedSpace::updateNews()
 			currentNewsIndex = rand()%NUM_NEWS_ITEMS;
 		NewsLocation = GAME_WIDTH;
 	}
+}
+
+string RedSpace::popWithLeadingZeros(long long int in)
+{
+	string current = std::to_string(in);
+	while(current.length() < 11) current = "0"+current;
+	return current;
 }
