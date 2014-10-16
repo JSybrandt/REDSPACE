@@ -17,7 +17,7 @@ namespace playerPlanetNS
 	const float NUKE_COST = 40;
 	const float SHOT_COST = 3;
 	const float RECHARGE_RATE = 25;
-	const float CURSOR_SPEED = 3*PI;
+	const float CURSOR_SPEED = 5*PI/2;
 }
 
 class PlayerPlanet : public Planet
