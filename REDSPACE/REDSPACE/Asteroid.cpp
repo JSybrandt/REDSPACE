@@ -1,10 +1,10 @@
-#include "Planet.h"
+#include "Asteroid.h"
 
-Planet::Planet() {
+Asteroid::Asteroid() {
 	resistance = 1;
 }
 
-Planet::Planet(float x, float y, float rad, float mass, bool active = true){
+Asteroid::Asteroid(float x, float y, float rad, float mass, bool active = true){
 	spriteData.x    = x;              // location on screen
 	spriteData.y    = y;
 	radius          = rad;
@@ -26,12 +26,12 @@ Planet::Planet(float x, float y, float rad, float mass, bool active = true){
 
 }
 
-void Planet::update(float frameTime) {
-	Actor::update(frameTime);
-	spriteData.x += frameTime * this->velocity.x;     // move ship along X 
-	spriteData.y += frameTime * this->velocity.y;     // move ship along Y
+void Asteroid::update(float frameTime) {
+	if(active)
+		Planet::update(frameTime);
 }
 
-void Planet::draw() {
-	Image::draw();
+void Asteroid::draw() {
+	if(active)
+		Planet::draw();
 }

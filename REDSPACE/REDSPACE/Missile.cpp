@@ -97,6 +97,8 @@ void Missile::update(float frameTime)
 
 void Missile::draw() {
     if(explosionOn) {
+		explosion.setCenterX(spriteData.x);
+		explosion.setCenterY(spriteData.y);
         explosion.draw(spriteData); // draw explosion using current spriteData
 	}
     if(active)

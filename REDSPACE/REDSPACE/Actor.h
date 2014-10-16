@@ -126,6 +126,7 @@ class Actor : public Image
 
     // Set velocity.
     virtual void  setVelocity(VECTOR2 v)    {velocity = v;}
+	virtual void  setVelocity(float x, float y)    {velocity.x = x; velocity.y = y;}
 
     // Set delta velocity. Added to velocity in update().
     virtual void  setDeltaV(VECTOR2 dv)     {deltaV = dv;}

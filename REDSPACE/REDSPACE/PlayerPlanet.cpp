@@ -82,9 +82,9 @@ void PlayerPlanet::update(float frameTime)
 void PlayerPlanet::draw()
 {
 	if(currentResource < playerPlanetNS::NUKE_COST)
-		Planet::draw((graphicsNS::ALPHA50 | graphicsNS::ALPHA25) & graphicsNS::LTGRAY );
+		Image::draw((graphicsNS::ALPHA50 | graphicsNS::ALPHA25) & graphicsNS::LTGRAY );
 	else
-		Planet::draw();
+		Image::draw();
 	cursor.setCenterX(this->getCenterX());
 	cursor.setCenterY(this->getCenterY());
 	cursor.setRadians(cursorLocation);

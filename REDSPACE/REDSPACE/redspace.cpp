@@ -52,7 +52,7 @@ void RedSpace::initialize(HWND hwnd)
 	if (!explosionTex.initialize(graphics,EXP_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing nebula texture"));
 
-	// sun texture
+	// Planet texture
 	if (!planetTexture.initialize(graphics,PLANET_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing sun texture"));
 	if (!marsTex.initialize(graphics,MARS_IMAGE))
@@ -60,7 +60,7 @@ void RedSpace::initialize(HWND hwnd)
 	if (!earthTex.initialize(graphics,EARTH_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing earth texture"));
 
-	// spaceship texture
+	// Other Textures
 	if (!misTexture.initialize(graphics,MISSILE_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing ship texture"));
 
@@ -73,7 +73,10 @@ void RedSpace::initialize(HWND hwnd)
 
 	if(!barTex.initialize(graphics,BAR_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing bar texture"));
+	if(!astTex.initialize(graphics,AST_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing bar texture"));
 
+	//Bars
 	if (!marsBar.initialize(graphics,0,0,0,&barTex))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing mars bar"));
 
@@ -83,7 +86,7 @@ void RedSpace::initialize(HWND hwnd)
 	marsBar.setX(GAME_WIDTH-marsBar.getWidth());
 	earthBar.setX(0);
 
-	// sun
+	// Planets
 	if (!sun.initialize(this,0,0,0,&planetTexture))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing sun"));
 	if (!mars.initialize(this,0,0,0,&marsTex))
@@ -133,7 +136,7 @@ void RedSpace::initialize(HWND hwnd)
 	for(int i = 0; i < MISSILEMAX; i++) { //NEEDS TO MAKE ACTIVE ONLY
 		mc[i] = Missile(GAME_WIDTH/4 - missileNS::WIDTH, GAME_HEIGHT/2 - missileNS::HEIGHT, false,this);
 		mc[i].initialize(this, missileNS::WIDTH, missileNS::HEIGHT, missileNS::TEXTURE_COLS, &misTexture);
-		mc[i].setMass(1200);
+		mc[i].setMass(1450);
 		mc[i].setVelocity(D3DXVECTOR2(0,-360-(rand()%100)));
 		//mc[i].setCollisionRadius(32);
 		mc[i].explosion.initialize(this, 32, 32, 2, &explosionTex);
@@ -141,8 +144,35 @@ void RedSpace::initialize(HWND hwnd)
 		mc[i].explosion.setCurrentFrame(EXP_START);
 		mc[i].explosion.setFrameDelay(EXP_DELAY);
 		mc[i].explosion.setLoop(false);               // do not loop animation
-		mc[i].explosion.setMass(-mc[i].getMass()*400000000);
+		mc[i].explosion.setMass(-mc[i].getMass()*40000000000);
 		//spaceBorn++;
+	}
+	float degrees = 360;
+	float divisor = 360/ASTMAX;
+	const float REDUCE = 7.7;
+	const float RADIUS = 500;
+	for(int i = 0; i < ASTMAX; i++) { //NEEDS TO MAKE ACTIVE ONLY
+		float x = (GAME_WIDTH/2.0 + RADIUS*cos((PI/180)*divisor*(i))); //Make these random around the range of spawning
+		float y = (GAME_HEIGHT/2.0 + RADIUS*sin((PI/180)*divisor*(i))); //Make these random around the range of spawning
+		astField[i] = Asteroid(x, y, 20/2.0,5.0e3f,true);
+		astField[i].initialize(this, 48, 48, 0, &astTex);
+
+		VECTOR2 angVel((GAME_HEIGHT/2 - y)/REDUCE,(GAME_WIDTH/2 - x)/REDUCE);
+		
+		astField[i].setVelocity(angVel.x, angVel.y);
+		if(y<400 && x>=640) { //Quadrant 1
+			astField[i].setVelocity(-angVel.x, angVel.y);
+		}
+		else if(y<400 && x<640) { //Quadrant 2
+			astField[i].setVelocity(-angVel.x, angVel.y);
+		}
+		else if(y>400 && x<640) { //Quandrant 3
+			astField[i].setVelocity(-angVel.x, angVel.y);
+		}
+		else if(y>400 && x>=640) { //Quandrant 4
+			astField[i].setVelocity(-angVel.x, angVel.y);
+		}
+		astField[i].setResistance(.014); //.014
 	}
 
 
@@ -152,12 +182,12 @@ void RedSpace::initialize(HWND hwnd)
 		//spaceBorn++;
 	}
 
-	for(int i = 0 ; i < SHOTMAX; i++)
+	for(int i = 0 ; i < SHOTMAX; i++) //Shot Spawner
 	{
 		shots[i] = Shot();
 		shots[i].initialize(this,0,0,0,&shotTex);
 	}
-	
+
 	if(!earthText.initialize(graphics,50,true,false,"Copperplate Gothic")) 
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing Constantia Font"));
 	if(!marsText.initialize(graphics,50,true,false,"Copperplate Gothic"))
@@ -192,8 +222,8 @@ void RedSpace::update()
 			mc[i].update(frameTime);
 		}
 		if(mc[i].explosionOn) {
-			mars.gravityForce(&mc[i].explosion, frameTime); //TESTING ONLY
-			earth.gravityForce(&mc[i].explosion, frameTime); //TESTING ONLY
+			//mars.gravityForce(&mc[i].explosion, frameTime); //TESTING ONLY
+			//earth.gravityForce(&mc[i].explosion, frameTime); //TESTING ONLY
 			mc[i].explosion.update(frameTime);
 			if(mc[i].explosion.getAnimationComplete()) {   // if explosion animation complete
 				mc[i].explosionOn = false;                // turn off explosion
@@ -213,12 +243,22 @@ void RedSpace::update()
 	{
 		shots[i].update(frameTime);
 	}
+	for(int i = 0 ; i < ASTMAX; i++)
+	{
+		for(int j = 0; j < MISSILEMAX; j++) {
+			if(mc[j].explosionOn) {
+				astField[i].gravityForce(&mc[j].explosion, frameTime);
+			}
+		}
+		astField[i].update(frameTime);
+		astField[i].gravityForce(&sun, frameTime);
+	}
 
 	sun.update(frameTime);
 	mars.update(frameTime);
 	earth.update(frameTime);
 
-	
+
 	marsBar.setY((playerPlanetNS::MAX_RESOURCE-mars.getResource())/playerPlanetNS::MAX_RESOURCE*GAME_HEIGHT);
 	earthBar.setY((playerPlanetNS::MAX_RESOURCE-earth.getResource())/playerPlanetNS::MAX_RESOURCE*GAME_HEIGHT);
 
@@ -253,6 +293,13 @@ void RedSpace::collisions()
 		bool hitShot = false;
 		for(int k = 0; k < SHOTMAX; k++){if(mc[i].collidesWith(shots[k],collison)){hitShot=true; shots[k].setActive(false);}}
 
+		//if hit asteroid
+		for(int k = 0; k < ASTMAX; k++){
+			if(mc[i].collidesWith(astField[k],collison)){
+				mc[i].setActive(false);
+			}
+		}
+
 		bool hitEarth = mc[i].collidesWith(earth,collison);
 		bool hitMars = mc[i].collidesWith(mars,collison);
 
@@ -267,7 +314,7 @@ void RedSpace::collisions()
 
 
 		}
-		
+
 	}
 
 	for(int i = 0 ; i < SHOTMAX; i++)
@@ -282,6 +329,16 @@ void RedSpace::collisions()
 			if(hitEarth)earth.killPeople(peopleDead);
 			if(hitMars)
 				mars.killPeople(peopleDead);
+		}
+	}
+
+	for(int i = 0 ; i < ASTMAX; i++) { //Asteroid field collision with planets
+		VECTOR2 collison;
+		bool hitEarth = astField[i].collidesWith(earth,collison);
+		bool hitMars = astField[i].collidesWith(mars,collison);
+		if(astField[i].collidesWith(sun,collison)||hitEarth||hitMars)
+		{
+			astField[i].setActive(false);
 		}
 	}
 
@@ -306,13 +363,16 @@ void RedSpace::render()
 	else
 	{
 		for(int i = 0; i < PARTICLEMAX; i++) {
-				particles[i].draw();
+			particles[i].draw();
 		}
 		for(int i = 0; i < SHOTMAX; i++) {
 			if(shots[i].getActive())shots[i].draw();
 		}
 		for(int i = 0; i < MISSILEMAX; i++) {
-				mc[i].draw();
+			mc[i].draw();
+		}
+		for(int i = 0; i < ASTMAX; i++) {
+			astField[i].draw();
 		}
 		//ship.draw();                            // add the spaceship to the scene
 
@@ -327,12 +387,12 @@ void RedSpace::render()
 
 	}
 
-		earthText.print(std::to_string(earth.getPopulation()),GAME_WIDTH/6,GAME_HEIGHT*7/8);
-		marsText.print(std::to_string(mars.getPopulation()),GAME_WIDTH*4/6,GAME_HEIGHT*7/8);
-		
+	earthText.print(std::to_string(earth.getPopulation()),GAME_WIDTH/6,GAME_HEIGHT*7/8);
+	marsText.print(std::to_string(mars.getPopulation()),GAME_WIDTH*4/6,GAME_HEIGHT*7/8);
 
-		graphics->spriteEnd();                  // end drawing sprites
-	
+
+	graphics->spriteEnd();                  // end drawing sprites
+
 
 }
 
@@ -360,58 +420,58 @@ void RedSpace::resetAll()
 void RedSpace::spawnMissle(D3DXVECTOR2 location, D3DXVECTOR2 velocity, COLOR_ARGB color)
 {
 	for(int i = 0; i < MISSILEMAX; i++)
-		{
-			if(misStorage == MISSILEMAX) {
-				misStorage = 0;
-			}
-			if(!mc[misStorage].getActive()){
-				mc[misStorage].setCenterX(location.x);
-				mc[misStorage].setCenterY(location.y);
-				mc[misStorage].setVelocity(velocity);
-				mc[misStorage].activate();
-				mc[misStorage].setColorFilter(color);
-				numActiveMissles++;
-				misStorage++;
-				audio->playCue(SC_LAUNCH);
-				break;
-			}
-			misStorage++;
+	{
+		if(misStorage == MISSILEMAX) {
+			misStorage = 0;
 		}
+		if(!mc[misStorage].getActive()){
+			mc[misStorage].setCenterX(location.x);
+			mc[misStorage].setCenterY(location.y);
+			mc[misStorage].setVelocity(velocity);
+			mc[misStorage].activate();
+			mc[misStorage].setColorFilter(color);
+			numActiveMissles++;
+			misStorage++;
+			audio->playCue(SC_LAUNCH);
+			break;
+		}
+		misStorage++;
+	}
 }
 
 void RedSpace::spawnSmokeParticle(D3DXVECTOR2 location)
 {
 	for(int i = 0; i < PARTICLEMAX; i++)
-		{
-			if(partStorage == PARTICLEMAX) {
-				partStorage = 0;
-			}
-			if(!particles[partStorage].getActive()){
-				particles[partStorage].set(location);
-				partStorage++;
-				numActiveParticles++;
-				break;
-			}
-			partStorage++;
+	{
+		if(partStorage == PARTICLEMAX) {
+			partStorage = 0;
 		}
+		if(!particles[partStorage].getActive()){
+			particles[partStorage].set(location);
+			partStorage++;
+			numActiveParticles++;
+			break;
+		}
+		partStorage++;
+	}
 }
 
 
 void RedSpace::spawnShot(D3DXVECTOR2 location, D3DXVECTOR2 velocity)
 {
 	for(int i = 0; i < SHOTMAX; i++)
-		{
-			if(shotStorage == SHOTMAX) {
-				shotStorage = 0;
-			}
-			if(!shots[shotStorage].getActive()){
-				shots[shotStorage].spawn(location.x,location.y,velocity.x,velocity.y);
-				shotStorage++;
-				numActiveShot++;
-				break;
-			}
-			shotStorage++;
+	{
+		if(shotStorage == SHOTMAX) {
+			shotStorage = 0;
 		}
+		if(!shots[shotStorage].getActive()){
+			shots[shotStorage].spawn(location.x,location.y,velocity.x,velocity.y);
+			shotStorage++;
+			numActiveShot++;
+			break;
+		}
+		shotStorage++;
+	}
 }
 
 

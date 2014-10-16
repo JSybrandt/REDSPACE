@@ -36,6 +36,7 @@ const char CURSOR_IMAGE[] = "pictures\\cursor.png";
 const char SMOKE_IMAGE[] = "pictures\\smoke.png";
 const char SHOT_IMAGE[] = "pictures\\shot.png";
 const char BAR_IMAGE[] = "pictures\\bar.png";
+const char AST_IMAGE[] = "pictures\\asteroid.png";
 
 //Sound Locations
 const char WAVE_BANK[] = "audio\\Win\\Wave Bank.xwb";
@@ -73,6 +74,7 @@ const int MISSILEMAX = 100;
 const int PARTICLEMAX = 1000;
 const int SHOTMAX = 100;
 const int EXPMAX = 200;
+const int ASTMAX = 20;
 const double PI = 3.14159265;
 const float FRAME_RATE  = 100.0f;               // the target frame rate (frames/sec)
 const float MIN_FRAME_RATE = 10.0f;             // the minimum frame rate

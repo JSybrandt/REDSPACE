@@ -88,6 +88,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="Asteroid.cpp" />
     <ClCompile Include="audio.cpp" />
     <ClCompile Include="constants.cpp" />
     <ClCompile Include="Explosion.cpp" />
@@ -107,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
+    <ClInclude Include="Asteroid.h" />
     <ClInclude Include="audio.h" />
     <ClInclude Include="constants.h" />
     <ClInclude Include="Controls.h" />

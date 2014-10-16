@@ -11,6 +11,7 @@
 #include "Planet.h"
 #include "Missile.h"
 #include "PlayerPlanet.h"
+#include "Asteroid.h"
 #include "Controls.h"
 #include "SmokeParticle.h"
 #include"Shot.h"
@@ -36,6 +37,7 @@ private:
 	TextureManager smokeTex;
 	TextureManager shotTex;
 	TextureManager barTex;
+	TextureManager astTex;
 	Image marsBar;
 	Image earthBar;
 	Planet  sun;         
@@ -47,6 +49,7 @@ private:
 	SmokeParticle particles[PARTICLEMAX];
 	Explosion exp[EXPMAX];
 	Shot shots[SHOTMAX];
+	Asteroid astField[ASTMAX];
 	int numActiveMissles;
 	int numActiveParticles;
 	int numActiveShot;
