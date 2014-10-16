@@ -11,6 +11,7 @@ namespace playerPlanetNS
 {
 	const float SHOT_DELAY = 0.075;
 	const long long int STARTING_POP = 5000000000;
+	const float cursorInaccuracy = PI/8;
 }
 
 class PlayerPlanet : public Planet

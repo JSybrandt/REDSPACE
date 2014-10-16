@@ -15,14 +15,16 @@ class PlayerPlanet;
 RedSpace::RedSpace()
 {
 	P1Controls = Controls('W','S','A','D');
-	P2Controls = Controls('I','K','J','L');
-	numActiveMissles = 0;
-	numActiveParticles = 0;
+	P2Controls = Controls(VK_UP,VK_DOWN,VK_LEFT,VK_RIGHT);
 	sun = Planet(GAME_WIDTH/2 - 128/2.0, GAME_HEIGHT/2 - 120/2.0, 70/2.0,5.0e14f,true);
 	earth = PlayerPlanet(GAME_WIDTH/2 - 128/2.0, GAME_HEIGHT/2 - 120/2.0, 100, 5.0e14f,this,P1Controls);
 	mars = PlayerPlanet(GAME_WIDTH/2 - 128/2.0, GAME_HEIGHT/2 - 120/2.0, 100, 5.0e14f,this,P2Controls);
 	misStorage = 0;
 	partStorage = 0;
+	shotStorage = 0;
+	numActiveMissles = 0;
+	numActiveParticles = 0;
+	numActiveShot = 0;
 }
 
 //=============================================================================
@@ -64,14 +66,16 @@ void RedSpace::initialize(HWND hwnd)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing cursor texture"));
 	if(!smokeTex.initialize(graphics,SMOKE_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing smoke texture"));
+	if(!shotTex.initialize(graphics,SHOT_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing shot texture"));
 
 	// sun
 	if (!sun.initialize(this,0,0,0,&planetTexture))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing sun"));
 	if (!mars.initialize(this,0,0,0,&marsTex))
-		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing sun"));
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing mars"));
 	if (!earth.initialize(this,0,0,0,&earthTex))
-		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing sun"));
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing earth"));
 
 	mars.setCursor(&cursorTex);
 	earth.setCursor(&cursorTex);
@@ -129,6 +133,12 @@ void RedSpace::initialize(HWND hwnd)
 		particles[i].initialize(this, 0,0, 0, &smokeTex);
 		//spaceBorn++;
 	}
+
+	for(int i = 0 ; i < SHOTMAX; i++)
+	{
+		shots[i] = Shot();
+		shots[i].initialize(this,0,0,0,&shotTex);
+	}
 	
 	if(!earthPopText.initialize(graphics,50,true,false,"Copperplate Gothic")) 
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing Constantia Font"));
@@ -178,7 +188,10 @@ void RedSpace::update()
 	{
 		particles[i].update(frameTime);
 	}
-
+	for(int i = 0 ; i < SHOTMAX; i++)
+	{
+		shots[i].update(frameTime);
+	}
 
 	sun.update(frameTime);
 	mars.update(frameTime);
@@ -199,9 +212,15 @@ void RedSpace::collisions()
 {
 	VECTOR2 collison;
 	for(int i = 0; i < MISSILEMAX; i++) {
+
+		//if hit by a shot
+		bool hitShot = false;
+		for(int k = 0; k < SHOTMAX; k++){if(mc[i].collidesWith(shots[k],collison)){hitShot=true; shots[k].setActive(false);}}
+
 		bool hitEarth = mc[i].collidesWith(earth,collison);
 		bool hitMars = mc[i].collidesWith(mars,collison);
-		if(mc[i].getActive() && (mc[i].collidesWith(sun,collison) || hitEarth || hitMars )) {
+
+		if(mc[i].getActive() && (mc[i].collidesWith(sun,collison) || hitEarth || hitMars || hitShot)) {
 
 			mc[i].setActive(false);
 			numActiveMissles--;
@@ -214,6 +233,23 @@ void RedSpace::collisions()
 		}
 		
 	}
+
+	for(int i = 0 ; i < SHOTMAX; i++)
+	{
+		VECTOR2 collison;
+		bool hitEarth = shots[i].collidesWith(earth,collison);
+		bool hitMars = shots[i].collidesWith(mars,collison);
+		if(shots[i].collidesWith(sun,collison)||hitEarth||hitMars)
+		{
+			shots[i].setActive(false);
+			int peopleDead = rand()%10+1;
+			if(hitEarth)earth.killPeople(peopleDead);
+			if(hitMars)
+				mars.killPeople(peopleDead);
+		}
+	}
+
+
 }
 
 //=============================================================================
@@ -232,6 +268,9 @@ void RedSpace::render()
 	}
 	for(int i = 0; i < PARTICLEMAX; i++) {
 			particles[i].draw();
+	}
+	for(int i = 0; i < SHOTMAX; i++) {
+		if(shots[i].getActive())shots[i].draw();
 	}
 	//ship.draw();                            // add the spaceship to the scene
 
@@ -301,4 +340,21 @@ void RedSpace::spawnSmokeParticle(D3DXVECTOR2 location)
 		}
 }
 
+
+void RedSpace::spawnShot(D3DXVECTOR2 location, D3DXVECTOR2 velocity)
+{
+	for(int i = 0; i < SHOTMAX; i++)
+		{
+			if(shotStorage == SHOTMAX) {
+				shotStorage = 0;
+			}
+			if(!shots[shotStorage].getActive()){
+				shots[shotStorage].spawn(location.x,location.y,velocity.x,velocity.y);
+				shotStorage++;
+				numActiveShot++;
+				break;
+			}
+			shotStorage++;
+		}
+}
 

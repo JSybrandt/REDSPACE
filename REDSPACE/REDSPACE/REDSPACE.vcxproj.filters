@@ -72,6 +72,9 @@
     <ClCompile Include="textDX.cpp">
       <Filter>Source Files\Background</Filter>
     </ClCompile>
+    <ClCompile Include="Shot.cpp">
+      <Filter>Source Files\GameFiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h">
@@ -124,6 +127,9 @@
     </ClInclude>
     <ClInclude Include="textDX.h">
       <Filter>Header Files\Background</Filter>
+    </ClInclude>
+    <ClInclude Include="Shot.h">
+      <Filter>Header Files\GameFiles</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

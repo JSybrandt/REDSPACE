@@ -1,8 +1,8 @@
 #pragma once
 
 struct Controls{
-	char up,down,left,right;
-	Controls(char U, char D, char L, char R){
+	WORD up,down,left,right;
+	Controls(WORD U, WORD D, WORD L, WORD R){
 		up = U;
 		down = D;
 		left = L;

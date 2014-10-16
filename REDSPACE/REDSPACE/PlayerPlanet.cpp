@@ -18,7 +18,8 @@ void PlayerPlanet::update(float frameTime)
 
 	if(population < displayedPopulation)
 	{
-		displayedPopulation -= delPop * frameTime;
+		int d =  max(delPop * frameTime,1);
+		displayedPopulation -= d;
 	}
 	if(displayedPopulation < population) displayedPopulation = population;
 
@@ -58,6 +59,16 @@ void PlayerPlanet::update(float frameTime)
 			{
 				audio->playCue(SC_SHOT2);
 			}
+			D3DXVECTOR2 aim(1,0);
+			float shotLoc = cursorLocation + ((rand()%100)/100.0 -.5)*playerPlanetNS::cursorInaccuracy;
+			float nx = cos(shotLoc)*aim.x - sin(shotLoc)*aim.y;
+			float ny = sin(shotLoc)*aim.x + cos(shotLoc)*aim.y;
+			aim.x = nx; aim.y=ny;
+			D3DXVECTOR2 center = *getCenter();
+			D3DXVECTOR2 offset = center + ((getWidth()+8)*aim);
+			D3DXVECTOR2 loc = center;// + aim;
+			D3DXVECTOR2 vel = 700*aim;
+			game->spawnShot(offset,vel);
 		}
 	}
 

@@ -36,6 +36,8 @@ public:
 	void draw();
 	void  setActive(bool a);
 
+	void activate();
+
 	Explosion explosion;
 	bool explosionOn;
 

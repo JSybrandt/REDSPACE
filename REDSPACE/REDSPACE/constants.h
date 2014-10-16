@@ -35,6 +35,7 @@ const char EARTH_IMAGE[] = "pictures\\earth.png";	//CC3 art
 const char EXP_IMAGE[] = "pictures\\explosion.png"; //Public Domain
 const char CURSOR_IMAGE[] = "pictures\\cursor.png";
 const char SMOKE_IMAGE[] = "pictures\\smoke.png";
+const char SHOT_IMAGE[] = "pictures\\shot.png";
 
 //Sound Locations
 const char WAVE_BANK[] = "audio\\Win\\Wave Bank.xwb";
@@ -68,8 +69,9 @@ const float EXP_SPEED = 90.5f;
 const float EXP_DELAY = 0.05f;
  
 // game
-const int MISSILEMAX = 10000;
-const int PARTICLEMAX = 10000;
+const int MISSILEMAX = 100;
+const int PARTICLEMAX = 1000;
+const int SHOTMAX = 100;
 const int EXPMAX = 200;
 const double PI = 3.14159265;
 const float FRAME_RATE  = 100.0f;               // the target frame rate (frames/sec)

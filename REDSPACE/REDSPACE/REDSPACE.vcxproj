@@ -98,6 +98,7 @@
     <ClCompile Include="Planet.cpp" />
     <ClCompile Include="PlayerPlanet.cpp" />
     <ClCompile Include="redspace.cpp" />
+    <ClCompile Include="Shot.cpp" />
     <ClCompile Include="SmokeParticle.cpp" />
     <ClCompile Include="textDX.cpp" />
     <ClCompile Include="textureManager.cpp" />
@@ -118,6 +119,7 @@
     <ClInclude Include="Missile.h" />
     <ClInclude Include="Planet.h" />
     <ClInclude Include="redspace.h" />
+    <ClInclude Include="Shot.h" />
     <ClInclude Include="SmokeParticle.h" />
     <ClInclude Include="textDX.h" />
     <ClInclude Include="textureManager.h" />

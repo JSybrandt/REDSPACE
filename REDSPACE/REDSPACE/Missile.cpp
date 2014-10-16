@@ -112,4 +112,10 @@ void  Missile::setActive(bool a) {
 			explosionOn = true;
 			explosion.activate();
 		}
-	}
+}
+
+void Missile::activate()
+{
+	active = true;
+	age = 0;
+}

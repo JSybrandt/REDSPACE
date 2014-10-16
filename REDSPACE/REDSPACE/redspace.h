@@ -13,6 +13,7 @@
 #include "PlayerPlanet.h"
 #include "Controls.h"
 #include "SmokeParticle.h"
+#include"Shot.h"
 #include <string>
 
 
@@ -33,6 +34,7 @@ private:
 	TextureManager explosionTex;
 	TextureManager cursorTex;
 	TextureManager smokeTex;
+	TextureManager shotTex;
 	Planet  sun;         
 	PlayerPlanet mars;
 	PlayerPlanet earth;
@@ -41,10 +43,13 @@ private:
 	Missile mc[MISSILEMAX];
 	SmokeParticle particles[PARTICLEMAX];
 	Explosion exp[EXPMAX];
+	Shot shots[SHOTMAX];
 	int numActiveMissles;
 	int numActiveParticles;
+	int numActiveShot;
 	int misStorage;
 	int partStorage;
+	int shotStorage;
 	Controls P1Controls, P2Controls;
 	TextDX earthPopText;
 	TextDX marsPopText;
@@ -68,6 +73,7 @@ public:
 
 	void spawnMissle(D3DXVECTOR2 location, D3DXVECTOR2 velocity);
 	void spawnSmokeParticle(D3DXVECTOR2 location);
+	void spawnShot(D3DXVECTOR2 location, D3DXVECTOR2 velocity);
 };
 
 #endif
