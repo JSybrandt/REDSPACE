@@ -54,7 +54,7 @@ const char SC_CRASH[] = "crash";
 // window
 const char CLASS_NAME[] = "Red Space";
 const char GAME_TITLE[] = "Red Space";
-const bool FULLSCREEN = true;              // windowed or fullscreen DO NOT RUN FULLSCREEN IN DEBUG MODE
+const bool FULLSCREEN = false;              // windowed or fullscreen DO NOT RUN FULLSCREEN IN DEBUG MODE
 const UINT GAME_WIDTH =  1280;               // width of game in pixels
 const UINT GAME_HEIGHT = 800;               // height of game in pixels
 

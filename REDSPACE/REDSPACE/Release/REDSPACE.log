@@ -1,67 +1,6 @@
-﻿Build started 10/16/2014 8:25:20 PM.
+﻿Build started 10/16/2014 8:40:11 PM.
      1>Project "C:\Users\Nalta\Desktop\REDSPACE\REDSPACE\REDSPACE\REDSPACE\REDSPACE.vcxproj" on node 2 (Build target(s)).
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\Include" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D _MBCS /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Actor.cpp Asteroid.cpp audio.cpp constants.cpp Explosion.cpp game.cpp graphics.cpp image.cpp input.cpp Missile.cpp Planet.cpp PlayerPlanet.cpp redspace.cpp Shot.cpp SmokeParticle.cpp textDX.cpp textureManager.cpp winmain.cpp
-         Actor.cpp
-         Asteroid.cpp
-     1>Asteroid.cpp(34): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-         audio.cpp
-         constants.cpp
-         Explosion.cpp
-         game.cpp
-         graphics.cpp
-         image.cpp
-         input.cpp
-         Missile.cpp
-     1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\PlayerPlanet.h(12): warning C4305: 'initializing' : truncation from 'double' to 'const float'
-     1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\PlayerPlanet.h(13): warning C4305: 'initializing' : truncation from 'double' to 'const float'
-     1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\PlayerPlanet.h(15): warning C4244: 'initializing' : conversion from 'const double' to 'const float', possible loss of data
-     1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\PlayerPlanet.h(20): warning C4244: 'initializing' : conversion from 'const double' to 'const float', possible loss of data
-     1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\redspace.h(20): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-         Planet.cpp
-         PlayerPlanet.cpp
-     1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\PlayerPlanet.h(12): warning C4305: 'initializing' : truncation from 'double' to 'const float'
-     1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\PlayerPlanet.h(13): warning C4305: 'initializing' : truncation from 'double' to 'const float'
-     1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\PlayerPlanet.h(15): warning C4244: 'initializing' : conversion from 'const double' to 'const float', possible loss of data
-     1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\PlayerPlanet.h(20): warning C4244: 'initializing' : conversion from 'const double' to 'const float', possible loss of data
-     1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\redspace.h(20): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-     1>PlayerPlanet.cpp(21): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
-     1>PlayerPlanet.cpp(32): warning C4244: 'argument' : conversion from 'WORD' to 'UCHAR', possible loss of data
-     1>PlayerPlanet.cpp(41): warning C4244: 'argument' : conversion from 'int' to 'FLOAT', possible loss of data
-     1>PlayerPlanet.cpp(46): warning C4244: 'argument' : conversion from 'WORD' to 'UCHAR', possible loss of data
-     1>PlayerPlanet.cpp(59): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>PlayerPlanet.cpp(63): warning C4244: 'argument' : conversion from 'int' to 'FLOAT', possible loss of data
-     1>PlayerPlanet.cpp(68): warning C4244: 'argument' : conversion from 'WORD' to 'UCHAR', possible loss of data
-     1>PlayerPlanet.cpp(72): warning C4244: 'argument' : conversion from 'WORD' to 'UCHAR', possible loss of data
-         redspace.cpp
-     1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\PlayerPlanet.h(12): warning C4305: 'initializing' : truncation from 'double' to 'const float'
-     1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\PlayerPlanet.h(13): warning C4305: 'initializing' : truncation from 'double' to 'const float'
-     1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\PlayerPlanet.h(15): warning C4244: 'initializing' : conversion from 'const double' to 'const float', possible loss of data
-     1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\PlayerPlanet.h(20): warning C4244: 'initializing' : conversion from 'const double' to 'const float', possible loss of data
-     1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\redspace.h(20): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-     1>redspace.cpp(51): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
-     1>redspace.cpp(88): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
-     1>redspace.cpp(129): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>redspace.cpp(130): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>redspace.cpp(142): warning C4244: 'argument' : conversion from 'int' to 'FLOAT', possible loss of data
-     1>redspace.cpp(154): warning C4305: 'initializing' : truncation from 'double' to 'const float'
-     1>redspace.cpp(159): warning C4244: 'argument' : conversion from 'double' to 'FLOAT', possible loss of data
-     1>redspace.cpp(161): warning C4244: 'initializing' : conversion from 'const double' to 'float', possible loss of data
-     1>redspace.cpp(171): warning C4244: 'initializing' : conversion from 'const double' to 'float', possible loss of data
-     1>redspace.cpp(381): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-     1>redspace.cpp(520): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
-     1>redspace.cpp(521): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
-         Shot.cpp
-         SmokeParticle.cpp
-         textDX.cpp
-         textureManager.cpp
-         winmain.cpp
-     1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\PlayerPlanet.h(12): warning C4305: 'initializing' : truncation from 'double' to 'const float'
-     1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\PlayerPlanet.h(13): warning C4305: 'initializing' : truncation from 'double' to 'const float'
-     1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\PlayerPlanet.h(15): warning C4244: 'initializing' : conversion from 'const double' to 'const float', possible loss of data
-     1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\PlayerPlanet.h(20): warning C4244: 'initializing' : conversion from 'const double' to 'const float', possible loss of data
-     1>c:\users\nalta\desktop\redspace\redspace\redspace\redspace\redspace.h(20): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-       Link:
+     1>Link:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Nalta\Desktop\REDSPACE\REDSPACE\REDSPACE\REDSPACE\Release\REDSPACE.exe" /NOLOGO /LIBPATH:"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\Lib\x86" d3d9.lib d3dx9.lib winmm.lib xinput.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Nalta\Desktop\REDSPACE\REDSPACE\REDSPACE\REDSPACE\Release\REDSPACE.pdb" /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Nalta\Desktop\REDSPACE\REDSPACE\REDSPACE\REDSPACE\Release\REDSPACE.lib" /MACHINE:X86 /SAFESEH Release\Actor.obj
          Release\Asteroid.obj
          Release\audio.obj
@@ -87,4 +26,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:13.92
+Time Elapsed 00:00:01.25
