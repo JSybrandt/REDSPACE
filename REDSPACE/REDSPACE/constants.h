@@ -37,6 +37,7 @@ const char SMOKE_IMAGE[] = "pictures\\smoke.png";
 const char SHOT_IMAGE[] = "pictures\\shot.png";
 const char BAR_IMAGE[] = "pictures\\bar.png";
 const char AST_IMAGE[] = "pictures\\asteroid.png";
+const char HUD_IMAGE[] = "pictures\\hud.png";
 
 //Sound Locations
 const char WAVE_BANK[] = "audio\\Win\\Wave Bank.xwb";

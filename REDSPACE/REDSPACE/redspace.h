@@ -38,6 +38,8 @@ private:
 	TextureManager shotTex;
 	TextureManager barTex;
 	TextureManager astTex;
+	TextureManager hudTex;
+	Image hud;
 	Image marsBar;
 	Image earthBar;
 	Planet  sun;         

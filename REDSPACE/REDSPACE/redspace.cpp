@@ -50,9 +50,13 @@ void RedSpace::initialize(HWND hwnd)
 
 	srand(time(0));
 
+	//	hud texture
+	if (!hudTex.initialize(graphics,HUD_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing hud texture"));
+
 	//	Explosion texture
 	if (!explosionTex.initialize(graphics,EXP_IMAGE))
-		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing nebula texture"));
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing explosion texture"));
 
 	// Planet texture
 	if (!planetTexture.initialize(graphics,PLANET_IMAGE))
@@ -77,6 +81,12 @@ void RedSpace::initialize(HWND hwnd)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing bar texture"));
 	if(!astTex.initialize(graphics,AST_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing bar texture"));
+
+	//hud
+	if(!hud.initialize(graphics,0,0,0,&hudTex))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing hud"));
+
+	hud.setX(0);hud.setY(0);
 
 	//Bars
 	if (!marsBar.initialize(graphics,0,0,0,&barTex))
@@ -109,18 +119,18 @@ void RedSpace::initialize(HWND hwnd)
 	sun.setGravity(2.17428e-21f);
 	//sun.setResistance(.0001);
 
-	mars.setCenterX(GAME_WIDTH*0.2f);
+	mars.setCenterX(GAME_WIDTH*0.25f);
 	mars.setCenterY(GAME_HEIGHT*0.5f);
 
 	mars.setMass(9e13f);
-	mars.setVelocity(VECTOR2(0,155)); //@ 1/4 distance, y = 130.
+	mars.setVelocity(VECTOR2(0,170)); //@ 1/4 distance, y = 130.
 	mars.setGravity(2.17428e-22f); //-16 for 000001
 
-	earth.setCenterX(GAME_WIDTH*0.7f);
+	earth.setCenterX(GAME_WIDTH*0.65f);
 	earth.setCenterY(GAME_HEIGHT*0.5f );
 
 	earth.setMass(9e13f);
-	earth.setVelocity(VECTOR2(0,-190)); //@ 1/4 distance, y = 130.
+	earth.setVelocity(VECTOR2(0,-230)); //@ 1/4 distance, y = 130.
 	earth.setGravity(2.17428e-22f); //-16 for 000001
 	//mars.setResistance(.000001);
 
@@ -378,18 +388,27 @@ void RedSpace::render()
 {
 	graphics->spriteBegin();                // begin drawing sprites
 
-	NewsText.print(NEWS[currentNewsIndex],NewsLocation,0);
+	
 
-	if(earth.getPopulation()>0 && mars.getPopulation()==0)
+	bool earthAlive = earth.getPopulation()>0;
+	bool marsAlive = mars.getPopulation()>0;
+
+
+	//p[rint game elements
+	if(earthAlive && !marsAlive)
 	{
 		earthText.print("TERRAN VICTORY",GAME_WIDTH/6,GAME_HEIGHT/2);
 	}
-	else if(earth.getPopulation()==0 && mars.getPopulation()>=0)
+	else if(marsAlive && !earthAlive)
 	{
 		marsText.print("MARTIAN VICTORY",GAME_WIDTH/6,GAME_HEIGHT/2);
 	}
 	else
 	{
+		sun.draw();
+		mars.draw();// add the sun to the scene
+		earth.draw();
+
 		for(int i = 0; i < PARTICLEMAX; i++) {
 			particles[i].draw();
 		}
@@ -402,20 +421,22 @@ void RedSpace::render()
 		for(int i = 0; i < ASTMAX; i++) {
 			astField[i].draw();
 		}
-		//ship.draw();                            // add the spaceship to the scene
-
-		sun.draw();
-		mars.draw();// add the sun to the scene
-		earth.draw();
-		
-		marsBar.draw(marsBar.getColorFilter());
-		earthBar.draw(earthBar.getColorFilter());
 
 	}
 
-	
-	earthText.print(getPopulationString(earth.getPopulation()),GAME_WIDTH/6,GAME_HEIGHT*7/8);
-	marsText.print(getPopulationString(mars.getPopulation()),GAME_WIDTH*2/3,GAME_HEIGHT*7/8);
+	//print hud elements
+	hud.draw();
+
+	NewsText.print(NEWS[currentNewsIndex],NewsLocation,0);
+
+	if(earthAlive && marsAlive)
+	{
+		marsBar.draw(marsBar.getColorFilter());
+		earthBar.draw(earthBar.getColorFilter());
+	}
+
+	earthText.print(getPopulationString(earth.getPopulation()),GAME_WIDTH/7,GAME_HEIGHT*11/12);
+	marsText.print(getPopulationString(mars.getPopulation()),GAME_WIDTH*2/3,GAME_HEIGHT*11/12);
 
 
 	graphics->spriteEnd();                  // end drawing sprites
